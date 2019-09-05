@@ -14,7 +14,6 @@ type Props = {
 function UserEmailNew(props: Props) {
   const { errorMessage, isPending, addUserEmail } = props;
   const [newEmail, setEmail] = useState('');
-  const [sync, setSync] = useState(false);
 
   function handleSubmit() {
     addUserEmail(newEmail);
@@ -28,6 +27,8 @@ function UserEmailNew(props: Props) {
   return (
     <Form onSubmit={handleSubmit}>
       <FormField
+        autoFocus
+        placeholder={__('hotstuff_96@hotmail.com')}
         type="email"
         id="sign_up_email"
         label={__('Email')}
@@ -35,15 +36,6 @@ function UserEmailNew(props: Props) {
         error={errorMessage}
         onChange={e => setEmail(e.target.value)}
       />
-      <FormField
-        type="checkbox"
-        id="sign_up_sync"
-        label={__('Sync my bidnezz on this device')}
-        helper={__('Maybe some additional text with this field')}
-        checked={sync}
-        onChange={() => setSync(!sync)}
-      />
-
       <Button button="primary" type="submit" label={__('Continue')} disabled={isPending} />
     </Form>
   );

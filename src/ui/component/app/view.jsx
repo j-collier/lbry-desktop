@@ -26,10 +26,22 @@ type Props = {
   fetchRewardedContent: () => void,
   fetchTransactions: () => void,
   fetchAccessToken: () => void,
+  fetchChannelListMine: () => void,
+  onSignedIn: () => void,
 };
 
 function App(props: Props) {
-  const { theme, fetchRewards, fetchRewardedContent, fetchTransactions, user, fetchAccessToken, accessToken } = props;
+  const {
+    theme,
+    fetchRewards,
+    fetchRewardedContent,
+    fetchTransactions,
+    user,
+    fetchAccessToken,
+    accessToken,
+    fetchChannelListMine,
+    onSignedIn,
+  } = props;
   const appRef = useRef();
   const isEnhancedLayout = useKonamiListener();
   const userId = user && user.id;
@@ -54,8 +66,9 @@ function App(props: Props) {
     // @if TARGET='app'
     fetchRewards();
     fetchTransactions();
+    fetchChannelListMine(); // This needs to be done for web too...
     // @endif
-  }, [fetchRewards, fetchRewardedContent, fetchTransactions, fetchAccessToken]);
+  }, [fetchRewards, fetchRewardedContent, fetchTransactions, fetchAccessToken, fetchChannelListMine]);
 
   useEffect(() => {
     // $FlowFixMe
@@ -74,7 +87,7 @@ function App(props: Props) {
     if (previousHasVerifiedEmail !== undefined && hasVerifiedEmail) {
       analytics.emailVerifiedEvent();
     }
-  }, [previousHasVerifiedEmail, hasVerifiedEmail]);
+  }, [previousHasVerifiedEmail, hasVerifiedEmail, onSignedIn]);
 
   useEffect(() => {
     if (previousRewardApproved !== undefined && isRewardApproved) {
@@ -89,6 +102,13 @@ function App(props: Props) {
     }
   }, [hasVerifiedEmail, accessToken]);
   // @endif
+
+  // Keep this at the end to ensure initial setup effects are run first
+  useEffect(() => {
+    if (!previousHasVerifiedEmail && hasVerifiedEmail) {
+      onSignedIn();
+    }
+  }, [previousHasVerifiedEmail, hasVerifiedEmail, onSignedIn]);
 
   return (
     <div className={MAIN_WRAPPER_CLASS} ref={appRef} onContextMenu={e => openContextMenu(e)}>

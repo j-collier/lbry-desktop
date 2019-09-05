@@ -1,24 +1,16 @@
 // @flow
 import React from 'react';
 import Button from 'component/button';
-import cookie from 'cookie';
 
 type Props = {
   button: string,
+  signOut: () => void,
 };
 
 function UserEmailResetButton(props: Props) {
-  const { button = 'link' } = props;
-  const buttonsProps = IS_WEB
-    ? {
-        onClick: () => {
-          document.cookie = cookie.serialize('auth_token', '');
-          window.location.reload();
-        },
-      }
-    : { href: 'https://lbry.com/faq/how-to-change-email' };
+  const { button = 'link', signOut } = props;
 
-  return <Button button={button} label={__('Change... fix me sean')} {...buttonsProps} />;
+  return <Button button={button} label={__('Change')} onClick={signOut} />;
 }
 
 export default UserEmailResetButton;

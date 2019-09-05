@@ -1,5 +1,5 @@
 // @flow
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Form, FormField, Submit } from 'component/common/form';
 import Button from 'component/button';
 import UserEmail from 'component/userEmail';
@@ -80,7 +80,7 @@ function WalletSecurityAndSync(props: Props) {
     syncApply,
     checkSync,
     hasTransactions,
-    setDefaultAccount,
+    // setDefaultAccount,
   } = props;
 
   const defaultComponentState: State = {
@@ -105,27 +105,27 @@ function WalletSecurityAndSync(props: Props) {
   const safeToSync = !hasTransactions || !hashChanged;
 
   // on mount
-  useEffect(() => {
-    checkSync();
-    getSavedPassword().then(p => {
-      if (p) {
-        setComponentState({
-          ...componentState,
-          newPassword: p,
-          newPasswordConfirm: p,
-          showPasswordFields: true,
-          rememberPassword: true,
-        });
-      }
-    });
-  }, []);
+  // useEffect(() => {
+  //   checkSync();
+  //   getSavedPassword().then(p => {
+  //     if (p) {
+  //       setComponentState({
+  //         ...componentState,
+  //         newPassword: p,
+  //         newPasswordConfirm: p,
+  //         showPasswordFields: true,
+  //         rememberPassword: true,
+  //       });
+  //     }
+  //   });
+  // }, []);
 
-  useEffect(() => {
-    setComponentState({
-      ...componentState,
-      passwordMatch: componentState.newPassword === componentState.newPasswordConfirm,
-    });
-  }, [componentState.newPassword, componentState.newPasswordConfirm]);
+  // useEffect(() => {
+  //   setComponentState({
+  //     ...componentState,
+  //     passwordMatch: componentState.newPassword === componentState.newPasswordConfirm,
+  //   });
+  // }, [componentState.newPassword, componentState.newPasswordConfirm]);
 
   const isEmailVerified = user && user.primary_email && user.has_verified_email;
   // const syncDisabledMessage = 'You cannot sync without an email';

@@ -7,12 +7,14 @@ import {
   doFetchAccessToken,
   selectAccessToken,
 } from 'lbryinc';
+import { selectMyChannelClaims } from 'lbry-redux';
 import UserSignUp from './view';
 
 const select = state => ({
   email: selectEmailToVerify(state),
   user: selectUser(state),
   accessToken: selectAccessToken(state),
+  channels: selectMyChannelClaims(state),
 });
 
 const perform = dispatch => ({

@@ -49,7 +49,7 @@ function SideBar(props: Props) {
             ))}
           </ul>
 
-          {email ? (
+          {(email || !IS_WEB) && (
             <Fragment>
               <Button
                 navigate={`/$/${PAGES.FOLLOWING}`}
@@ -78,10 +78,6 @@ function SideBar(props: Props) {
                 ))}
               </ul>
             </Fragment>
-          ) : (
-            <div className="navigation--placeholder" style={{ height: '20vh', marginTop: '1rem', padding: '1rem' }}>
-              Something about logging up to customize here
-            </div>
           )}
         </nav>
       ) : (

@@ -78,11 +78,10 @@ Lbryio.setOverride(
           throw new Error(__('auth_token is missing from response'));
         }
 
-        const newAuthToken = response.auth_token;
-        authToken = newAuthToken;
+        authToken = response.auth_token;
 
         // @if TARGET='web'
-        cookie.serialize('auth_token', authToken, {
+        document.cookie = cookie.serialize('auth_token', authToken, {
           maxAge: COOKIE_EXPIRE_TIME,
         });
         // @endif

@@ -8,19 +8,21 @@ import Button from 'component/button';
 
 type Props = {
   followedTags: Array<Tag>,
+  email: string,
 };
 
 function DiscoverPage(props: Props) {
-  const { followedTags } = props;
+  const { followedTags, email } = props;
 
   return (
     <Page>
       <ClaimListDiscover
+        hideCustomization={IS_WEB && !email}
         personalView
         tags={followedTags.map(tag => tag.name)}
         meta={<Button button="link" label={__('Customize')} navigate={`/$/${PAGES.FOLLOWING}`} />}
         injectedItem={
-          <TagsSelect showClose title={__('Customize Your Homepage')} className="claim-preview--injected" />
+          email && <TagsSelect showClose title={__('Customize Your Homepage')} className="claim-preview--injected" />
         }
       />
     </Page>

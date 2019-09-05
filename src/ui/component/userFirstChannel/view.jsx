@@ -4,21 +4,28 @@ import { isNameValid } from 'lbry-redux';
 import Button from 'component/button';
 import { Form, FormField } from 'component/common/form';
 
-const DEFAULT_BID_FOR_FIRST_CHANNEL = 0.1;
+const DEFAULT_BID_FOR_FIRST_CHANNEL = 0.9;
 
 type Props = {
   createChannel: (string, number) => void,
   claimReward: (() => void) => void,
   creatingChannel: boolean,
+  claimingReward: boolean,
 };
 
 function UserFirstChannel(props: Props) {
-  const { createChannel, creatingChannel, claimReward } = props;
+  const { createChannel, claimReward, creatingChannel, claimingReward } = props;
   const [channel, setChannel] = useState('');
   const [nameError, setNameError] = useState();
 
   function handleCreateChannel() {
-    claimReward(() => {
+    claimReward(error => {
+      // console.log('?', error);
+      if (error) {
+        // setError()
+        // return;
+      }
+
       createChannel(`@${channel}`, DEFAULT_BID_FOR_FIRST_CHANNEL);
     });
   }
@@ -37,7 +44,7 @@ function UserFirstChannel(props: Props) {
     <Form onSubmit={handleCreateChannel}>
       <h1 className="card__title--large">{__('Choose Your Channel Name')}</h1>
       <p className="card__subtitle">
-        {__("Normally this would cost LBRY credits, but we're hooking you up for your first one.")}
+        {__("Normally this would use LBRY credits, but we're hooking you up for your first one.")}
       </p>
       <fieldset-group class="fieldset-group--smushed fieldset-group--disabled-prefix">
         <fieldset-section>
@@ -53,9 +60,8 @@ function UserFirstChannel(props: Props) {
         <Button
           button="primary"
           type="submit"
-          disabled={nameError || !channel || creatingChannel}
-          label={__('Create')}
-          onClick={handleCreateChannel}
+          disabled={nameError || !channel || creatingChannel || claimingReward}
+          label={creatingChannel || claimingReward ? __('Creating') : __('Create')}
         />
       </div>
     </Form>

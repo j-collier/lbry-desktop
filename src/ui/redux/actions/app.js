@@ -32,6 +32,7 @@ import { doAuthenticate } from 'lbryinc';
 import { lbrySettings as config, version as appVersion } from 'package.json';
 import { push } from 'connected-react-router';
 import analytics from 'analytics';
+import { deleteSavedPassword } from 'util/saved-passwords';
 
 // @if TARGET='app'
 const { autoUpdater } = remote.require('electron-updater');
@@ -322,13 +323,12 @@ export function doAlertError(errorList) {
 export function doDaemonReady() {
   return (dispatch, getState) => {
     const state = getState();
-
     dispatch(doAuthenticate(appVersion));
     dispatch({ type: ACTIONS.DAEMON_READY });
 
     // @if TARGET='app'
-    dispatch(doFetchDaemonSettings());
     dispatch(doBalanceSubscribe());
+    dispatch(doFetchDaemonSettings());
     dispatch(doFetchFileInfosAndPublishedClaims());
     if (!selectIsUpgradeSkipped(state)) {
       dispatch(doCheckUpgradeAvailable());
@@ -437,5 +437,26 @@ export function doAnalyticsView(uri, timeToStart) {
     }
 
     analytics.apiLogView(uri, outpoint, claimId, timeToStart);
+  };
+}
+
+export function doOnSignedIn() {
+  return dispatch => {
+    // The balance is subscribed to on launch for desktop
+    // @if TARGET='web'
+    dispatch(doBalanceSubscribe());
+    // @endif
+
+    // Lbryio.call('user_settings', 'get')
+    //   .then(val => {
+    //     console.log('val', val);
+    //   })
+    //   .catch(console.error);
+  };
+}
+
+export function doSignOut() {
+  return dispatch => {
+    deleteSavedPassword().then(location.reload());
   };
 }

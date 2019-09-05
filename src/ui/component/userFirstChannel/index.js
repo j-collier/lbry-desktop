@@ -1,23 +1,29 @@
 import { connect } from 'react-redux';
-import { selectUser, selectEmailToVerify, rewards as REWARD_TYPES, doClaimRewardType } from 'lbryinc';
+import {
+  selectUser,
+  selectEmailToVerify,
+  rewards as REWARD_TYPES,
+  doClaimRewardType,
+  makeSelectIsRewardClaimPending,
+} from 'lbryinc';
 import { doCreateChannel, selectCreatingChannel, selectMyChannelClaims } from 'lbry-redux';
-import UserSignUp from './view';
+import UserFirstChannel from './view';
 
 const select = state => ({
   email: selectEmailToVerify(state),
   user: selectUser(state),
-  creatingChannel: selectCreatingChannel(state),
   channels: selectMyChannelClaims(state),
+  creatingChannel: selectCreatingChannel(state),
+  claimingReward: makeSelectIsRewardClaimPending()(state, { reward_type: REWARD_TYPES.EMAIL_PROVIDED }),
 });
 
 const perform = dispatch => ({
   createChannel: (name, amount) => dispatch(doCreateChannel(name, amount)),
   claimReward: cb =>
     dispatch(
-      doClaimRewardType(REWARD_TYPES.TYPE_REWARD_CODE, {
+      doClaimRewardType(REWARD_TYPES.EMAIL_PROVIDED, {
         notifyError: true,
-        successCallback: cb,
-        params: { code: 'sean-test' },
+        callback: cb,
       })
     ),
 });
@@ -25,4 +31,4 @@ const perform = dispatch => ({
 export default connect(
   select,
   perform
-)(UserSignUp);
+)(UserFirstChannel);

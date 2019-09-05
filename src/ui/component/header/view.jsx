@@ -12,22 +12,6 @@ import Icon from 'component/common/icon';
 import { Menu, MenuList, MenuButton, MenuItem } from '@reach/menu-button';
 import Tooltip from 'component/common/tooltip';
 
-// Move this into jessops password util
-import cookie from 'cookie';
-// @if TARGET='app'
-import keytar from 'keytar';
-// @endif;
-function deleteAuthToken() {
-  // @if TARGET='app'
-  keytar.deletePassword('LBRY', 'auth_token').catch(console.error); //eslint-disable-line
-  // @endif;
-  // @if TARGET='web'
-  document.cookie = cookie.serialize('auth_token', '', {
-    expires: new Date(),
-  });
-  // @endif
-}
-
 type Props = {
   autoUpdateDownloaded: boolean,
   balance: string,
@@ -41,6 +25,7 @@ type Props = {
   hideBalance: boolean,
   email: ?string,
   minimal: boolean,
+  signOut: () => void,
 };
 
 const Header = (props: Props) => {
@@ -53,10 +38,11 @@ const Header = (props: Props) => {
     // hideBalance, Add back?
     email,
     minimal,
+    signOut,
   } = props;
   const isAuthenticated = Boolean(email);
   // Auth is optional in the desktop app
-  const showFullHeader = IS_WEB ? isAuthenticated : true;
+  const showFullHeader = !IS_WEB || isAuthenticated;
 
   function handleThemeToggle() {
     if (automaticDarkModeEnabled) {
@@ -68,44 +54,6 @@ const Header = (props: Props) => {
     } else {
       setClientSetting(SETTINGS.THEME, 'dark');
     }
-  }
-
-  function signOut() {
-    // Replace this with actual clearUser function
-    window.store.dispatch({ type: 'USER_FETCH_FAILURE' });
-    deleteAuthToken();
-    location.reload();
-  }
-
-  const accountMenuButtons = [
-    {
-      path: `/$/account`,
-      icon: ICONS.OVERVIEW,
-      label: __('Overview'),
-    },
-    {
-      path: `/$/rewards`,
-      icon: ICONS.FEATURED,
-      label: __('Rewards'),
-    },
-    {
-      path: `/$/wallet`,
-      icon: ICONS.WALLET,
-      label: __('Wallet'),
-    },
-    {
-      path: `/$/publish`,
-      icon: ICONS.PUBLISH,
-      label: __('Publish'),
-    },
-  ];
-
-  if (!isAuthenticated) {
-    accountMenuButtons.push({
-      onClick: signOut,
-      icon: ICONS.PUBLISH,
-      label: __('Publish'),
-    });
   }
 
   return (
@@ -212,10 +160,7 @@ const Header = (props: Props) => {
                 </Menu>
               </Fragment>
             ) : (
-              <Fragment>
-                <span />
-                <Button navigate={`/$/${PAGES.AUTH}/signin`} button="primary" label={__('Sign In')} />
-              </Fragment>
+              <Button navigate={`/$/${PAGES.AUTH}/signin`} button="primary" label={__('Sign In')} />
             )}
           </div>
         ) : (

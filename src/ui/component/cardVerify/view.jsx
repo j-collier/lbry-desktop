@@ -1,4 +1,5 @@
 // @flow
+/* eslint-disable no-undef */
 import React from 'react';
 import Button from 'component/button';
 
@@ -161,7 +162,7 @@ class CardVerify extends React.Component<Props, State> {
   render() {
     return (
       <Button
-        button="inverse"
+        button="primary"
         label={this.props.label}
         disabled={this.props.disabled || this.state.open || this.hasPendingClick}
         onClick={this.onClick.bind(this)}
@@ -171,3 +172,4 @@ class CardVerify extends React.Component<Props, State> {
 }
 
 export default CardVerify;
+/* eslint-enable no-undef */

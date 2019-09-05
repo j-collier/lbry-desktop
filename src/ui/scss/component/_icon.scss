@@ -1,0 +1,13 @@
+.icon__wrapper {
+  @extend .card__subtitle;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  margin-top: 0;
+  border-radius: 2.5rem;
+
+  .icon {
+    stroke: $lbry-gray-5;
+  }
+}

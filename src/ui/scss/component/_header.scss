@@ -54,7 +54,7 @@
   justify-content: space-between;
   align-items: center;
 
-  .button {
+  > .button:only-child {
     margin-left: auto;
   }
 }

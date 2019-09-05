@@ -1,8 +1,9 @@
 import { hot } from 'react-hot-loader/root';
 import { connect } from 'react-redux';
-import { doError, doFetchTransactions } from 'lbry-redux';
+import { doError, doFetchTransactions, doFetchChannelListMine } from 'lbry-redux';
 import { selectUser, doRewardList, doFetchRewardedContent, doFetchAccessToken, selectAccessToken } from 'lbryinc';
 import { selectThemePath } from 'redux/selectors/settings';
+import { doOnSignedIn } from 'redux/actions/app';
 import App from './view';
 
 const select = state => ({
@@ -17,6 +18,8 @@ const perform = dispatch => ({
   fetchRewardedContent: () => dispatch(doFetchRewardedContent()),
   fetchTransactions: () => dispatch(doFetchTransactions()),
   fetchAccessToken: () => dispatch(doFetchAccessToken()),
+  fetchChannelListMine: () => dispatch(doFetchChannelListMine()),
+  onSignedIn: () => dispatch(doOnSignedIn()),
 });
 
 export default hot(

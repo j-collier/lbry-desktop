@@ -5,7 +5,6 @@ import Button from 'component/button';
 import { FormField } from 'component/common/form';
 import UserEmailNew from 'component/userEmailNew';
 import UserEmailVerify from 'component/userEmailVerify';
-import UserEmailResetButton from 'component/userEmailResetButton';
 
 type Props = {
   cancelButton: Node,
@@ -61,7 +60,6 @@ function UserEmail(props: Props) {
                 </React.Fragment>
               }
               value={email}
-              inputButton={<UserEmailResetButton button="inverse" />}
             />
           )}
           <p className="help">

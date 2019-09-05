@@ -1,4 +1,6 @@
 import { ipcRenderer } from 'electron';
+// Move this into jessops password util
+import cookie from 'cookie';
 
 export const setSavedPassword = value => {
   return new Promise(
@@ -29,10 +31,19 @@ export const getSavedPassword = () => {
 export const deleteSavedPassword = () => {
   return new Promise(
     resolve => {
+      // @if TARGET='app'
       ipcRenderer.once('delete-password-response', (event, success) => {
         resolve(success);
       });
       ipcRenderer.send('delete-password');
+      // @endif;
+
+      // @if TARGET='web'
+      const setCookie = cookie.serialize('auth_token', undefined, {
+        expires: new Date(0),
+      });
+      document.cookie = setCookie;
+      // @endif
     },
     reject => {
       reject(false);

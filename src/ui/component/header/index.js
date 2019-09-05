@@ -1,8 +1,9 @@
 import * as SETTINGS from 'constants/settings';
 import { connect } from 'react-redux';
 import { selectBalance, formatCredits } from 'lbry-redux';
-import { selectUserEmail } from 'lbryinc';
+import { selectUserVerifiedEmail } from 'lbryinc';
 import { doSetClientSetting } from 'redux/actions/settings';
+import { doSignOut } from 'redux/actions/app';
 import { makeSelectClientSetting } from 'redux/selectors/settings';
 import { selectIsUpgradeAvailable, selectAutoUpdateDownloaded } from 'redux/selectors/app';
 import { doDownloadUpgradeRequested } from 'redux/actions/app';
@@ -16,12 +17,12 @@ const select = state => ({
   currentTheme: makeSelectClientSetting(SETTINGS.THEME)(state),
   automaticDarkModeEnabled: makeSelectClientSetting(SETTINGS.AUTOMATIC_DARK_MODE_ENABLED)(state),
   hideBalance: makeSelectClientSetting(SETTINGS.HIDE_BALANCE)(state),
-  email: selectUserEmail(state),
+  email: selectUserVerifiedEmail(state),
 });
 
 const perform = dispatch => ({
   setClientSetting: (key, value) => dispatch(doSetClientSetting(key, value)),
-  doDownloadUpgradeRequested,
+  signOut: () => dispatch(doSignOut()),
 });
 
 export default connect(
