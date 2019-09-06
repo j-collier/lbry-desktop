@@ -29,7 +29,7 @@ const RewardTile = (props: Props) => {
     <Card
       title={reward.reward_title}
       subtitle={reward.reward_description}
-      body={
+      actions={
         <div className="card__actions">
           {reward.reward_type === rewards.TYPE_GENERATED_CODE && (
             <Button button="primary" onClick={openRewardCodeModal} label={__('Enter Code')} />

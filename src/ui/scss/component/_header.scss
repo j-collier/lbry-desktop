@@ -59,6 +59,10 @@
   }
 }
 
+.header__menu--small {
+  width: auto;
+}
+
 .header__navigation-arrows {
   display: flex;
   margin-right: var(--spacing-small);

@@ -5,6 +5,7 @@ import Button from 'component/button';
 import { FormField } from 'component/common/form';
 import UserEmailNew from 'component/userEmailNew';
 import UserEmailVerify from 'component/userEmailVerify';
+import Card from 'component/common/card';
 
 type Props = {
   cancelButton: Node,
@@ -33,43 +34,37 @@ function UserEmail(props: Props) {
   }, [accessToken, fetchAccessToken]);
 
   return (
-    <section className="card card--section">
-      {!email && <UserEmailNew />}
-      {user && email && !isVerified && <UserEmailVerify />}
-      {email && isVerified && (
-        <React.Fragment>
-          <h2 className="card__title">{__('Email')}</h2>
-          <p className="card__subtitle">
-            {email && isVerified && __('Your email has been successfully verified')}
-            {!email && __('')}.
-          </p>
+    <Card
+      title={__('Email')}
+      subtitle={
+        <FormField
+          type="text"
+          className="form-field--copyable"
+          readOnly
+          label={
+            <React.Fragment>
+              {__('Your Email')}{' '}
+              <Button
+                button="link"
+                label={__('Update mailing preferences')}
+                href={`http://lbry.io/list/edit/${accessToken}`}
+              />
+            </React.Fragment>
+          }
+          value={email}
+        />
+      }
+    />
+    // <section className="card card--section">
+    //   <React.Fragment>
 
-          {isVerified && (
-            <FormField
-              type="text"
-              className="form-field--copyable"
-              readOnly
-              label={
-                <React.Fragment>
-                  {__('Your Email')}{' '}
-                  <Button
-                    button="link"
-                    label={__('Update mailing preferences')}
-                    href={`http://lbry.io/list/edit/${accessToken}`}
-                  />
-                </React.Fragment>
-              }
-              value={email}
-            />
-          )}
-          <p className="help">
-            {`${__(
-              'This information is disclosed only to LBRY, Inc. and not to the LBRY network. It is only required to save account information and earn rewards.'
-            )} `}
-          </p>
-        </React.Fragment>
-      )}
-    </section>
+    //     <p className="help">
+    //       {`${__(
+    //         'This information is disclosed only to LBRY, Inc. and not to the LBRY network. It is only required to save account information and earn rewards.'
+    //       )} `}
+    //     </p>
+    //   </React.Fragment>
+    // </section>
   );
 }
 

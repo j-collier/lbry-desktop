@@ -82,6 +82,10 @@
   }
 }
 
+.main--full-width {
+  width: 100%;
+}
+
 .main__status {
   @extend .card__subtitle;
   display: flex;

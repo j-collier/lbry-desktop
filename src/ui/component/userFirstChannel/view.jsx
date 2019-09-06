@@ -42,28 +42,30 @@ function UserFirstChannel(props: Props) {
 
   return (
     <Form onSubmit={handleCreateChannel}>
-      <h1 className="card__title--large">{__('Choose Your Channel Name')}</h1>
-      <p className="card__subtitle">
-        {__("Normally this would use LBRY credits, but we're hooking you up for your first one.")}
+      <h1 className="section__title--large">{__('Create A Channel')}</h1>
+      <p className="section__subtitle">
+        {__('Normally this would use LBRY credits, but we have your back for this first one.')}
       </p>
-      <fieldset-group class="fieldset-group--smushed fieldset-group--disabled-prefix">
-        <fieldset-section>
-          <label htmlFor="auth_first_channel">
-            {nameError ? <span className="error-text">{nameError}</span> : __('Your Channel')}
-          </label>
-          <div className="form-field__prefix">@</div>
-        </fieldset-section>
+      <section className="section">
+        <fieldset-group class="fieldset-group--smushed fieldset-group--disabled-prefix">
+          <fieldset-section>
+            <label htmlFor="auth_first_channel">
+              {nameError ? <span className="error-text">{nameError}</span> : __('Your Channel')}
+            </label>
+            <div className="form-field__prefix">@</div>
+          </fieldset-section>
 
-        <FormField type="text" name="auth_first_channel" value={channel} onChange={handleChannelChange} />
-      </fieldset-group>
-      <div className="card__actions">
-        <Button
-          button="primary"
-          type="submit"
-          disabled={nameError || !channel || creatingChannel || claimingReward}
-          label={creatingChannel || claimingReward ? __('Creating') : __('Create')}
-        />
-      </div>
+          <FormField type="text" name="auth_first_channel" value={channel} onChange={handleChannelChange} />
+        </fieldset-group>
+        <div className="card__actions">
+          <Button
+            button="primary"
+            type="submit"
+            disabled={nameError || !channel || creatingChannel || claimingReward}
+            label={creatingChannel || claimingReward ? __('Creating') : __('Create')}
+          />
+        </div>
+      </section>
     </Form>
   );
 }

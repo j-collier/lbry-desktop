@@ -40,9 +40,9 @@ const Header = (props: Props) => {
     minimal,
     signOut,
   } = props;
-  const isAuthenticated = Boolean(email);
+  const authenticated = Boolean(email);
   // Auth is optional in the desktop app
-  const showFullHeader = !IS_WEB || isAuthenticated;
+  const showFullHeader = !IS_WEB || authenticated;
 
   function handleThemeToggle() {
     if (automaticDarkModeEnabled) {
@@ -93,7 +93,7 @@ const Header = (props: Props) => {
         </div>
 
         {!minimal ? (
-          <div className="header__menu">
+          <div className={classnames('header__menu', { 'header__menu--small': IS_WEB && !authenticated })}>
             {showFullHeader ? (
               <Fragment>
                 <Menu>
@@ -118,7 +118,7 @@ const Header = (props: Props) => {
                   <MenuList className="menu__list--header">
                     <MenuItem
                       className="menu__link"
-                      onSelect={() => history.push(isAuthenticated ? `/$/account` : `/$/auth/signup`)}
+                      onSelect={() => history.push(authenticated ? `/$/account` : `/$/auth/signup`)}
                     >
                       <Icon aria-hidden icon={ICONS.OVERVIEW} />
                       {__('Overview')}
@@ -128,7 +128,7 @@ const Header = (props: Props) => {
                       <Icon aria-hidden icon={ICONS.PUBLISH} />
                       {__('Publish')}
                     </MenuItem>
-                    {isAuthenticated ? (
+                    {authenticated ? (
                       <MenuItem className="menu__link" onSelect={signOut}>
                         <Icon aria-hidden icon={ICONS.SIGN_OUT} />
                         {__('Sign Out')}

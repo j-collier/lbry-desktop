@@ -19,25 +19,16 @@ function UserSignIn(props: Props) {
   const channelCount = channels ? channels.length : 0;
 
   return (
-    <section className="auth-wrapper">
-      {!email && !hasVerifiedEmail && (
-        <div>
-          <h1 className="card__title--large" style={{ marginTop: '5rem' }}>
-            {__('Get Rockin')}
-          </h1>
-          <UserEmailNew />
+    <section>
+      {hasVerifiedEmail && channelCount > 0 && !rewardsApproved ? (
+        <UserVerify />
+      ) : (
+        <div className="auth-wrapper">
+          {!email && !hasVerifiedEmail && <UserEmailNew />}
+          {email && !hasVerifiedEmail && <UserEmailVerify />}
+          {hasVerifiedEmail && channelCount === 0 && <UserFirstChannel />}
         </div>
       )}
-      {email && !hasVerifiedEmail && (
-        <div>
-          <h1 className="card__title--large">{__('We Sent You An Email')}</h1>
-          {email && <UserEmailVerify />}
-        </div>
-      )}
-
-      {hasVerifiedEmail && channelCount === 0 && <UserFirstChannel />}
-
-      {hasVerifiedEmail && channelCount > 0 && !rewardsApproved && <UserVerify />}
     </section>
   );
 }

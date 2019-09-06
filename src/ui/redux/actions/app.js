@@ -28,7 +28,7 @@ import {
   selectUpgradeTimer,
   selectModal,
 } from 'redux/selectors/app';
-import { doAuthenticate } from 'lbryinc';
+import { Lbryio, doAuthenticate } from 'lbryinc';
 import { lbrySettings as config, version as appVersion } from 'package.json';
 import { push } from 'connected-react-router';
 import analytics from 'analytics';
@@ -457,6 +457,9 @@ export function doOnSignedIn() {
 
 export function doSignOut() {
   return dispatch => {
-    deleteSavedPassword().then(location.reload());
+    deleteSavedPassword();
+    setTimeout(() => {
+      location.reload();
+    });
   };
 }

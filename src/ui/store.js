@@ -1,3 +1,4 @@
+import * as ACTIONS from 'constants/action_types';
 import { persistStore, persistReducer } from 'redux-persist';
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 import createCompressor from 'redux-persist-transform-compress';
@@ -8,6 +9,9 @@ import thunk from 'redux-thunk';
 import { createHashHistory, createBrowserHistory } from 'history';
 import { routerMiddleware } from 'connected-react-router';
 import createRootReducer from './reducers';
+import { parseURI, selectFollowedTags } from 'lbry-redux';
+import { Lbryio } from 'lbryinc';
+import { selectSubscriptions } from 'redux/selectors/subscriptions';
 
 function isFunction(object) {
   return typeof object === 'function';
@@ -15,6 +19,43 @@ function isFunction(object) {
 
 function isNotFunction(object) {
   return !isFunction(object);
+}
+
+const persistShape = {
+  version: 0,
+  app: {
+    subscriptions: [],
+  },
+};
+
+function backupSettingsMiddleware() {
+  return ({ dispatch, getState }) => next => action => {
+    if (action.type === ACTIONS.CHANNEL_SUBSCRIBE || action.type === ACTIONS.CHANNEL_UNSUBSCRIBE) {
+      let newShape = { ...persistShape };
+      const state = getState();
+      const subscriptions = selectSubscriptions(state).map(({ uri }) => {
+        const { channelClaimId } = parseURI(uri);
+        return channelClaimId;
+      });
+
+      const { uri } = action.data;
+      const { channelClaimId } = parseURI(uri);
+
+      if (action.type === ACTIONS.CHANNEL_SUBSCRIBE) {
+        let newSubscriptions = subscriptions.slice();
+        newSubscriptions.push(channelClaimId);
+        newShape.app.subscriptions = newSubscriptions;
+      } else {
+        let newSubscriptions = subscriptions.slice();
+        newSubscriptions = newSubscriptions.filter(claimId => claimId !== channelClaimId);
+        newShape.app.subscriptions = newSubscriptions;
+      }
+
+      // Lbryio.call('user_settings', 'set', { settings: newShape });
+    }
+
+    return next(action);
+  };
 }
 
 function createBulkThunkMiddleware() {
@@ -97,7 +138,7 @@ history = createBrowserHistory();
 const rootReducer = createRootReducer(history);
 const persistedReducer = persistReducer(persistOptions, rootReducer);
 const bulkThunk = createBulkThunkMiddleware();
-const middleware = [routerMiddleware(history), thunk, bulkThunk];
+const middleware = [backupSettingsMiddleware(), routerMiddleware(history), thunk, bulkThunk];
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(
   enableBatching(persistedReducer),

@@ -29,7 +29,7 @@ class UserVerify extends React.PureComponent<Props> {
     return (
       <React.Fragment>
         <section className="section--large">
-          <h1 className="card__title--large">{__('Extra Verification Needed')}</h1>
+          <h1 className="section__title--large">{__('Extra Verification Needed')}</h1>
           <p>
             {__("We weren't able to auto-approve you. Please complete one of the steps below to unlock rewards.")}{' '}
             <Button navigate="/" button="link" label={__('Skip')} />.
@@ -43,7 +43,7 @@ class UserVerify extends React.PureComponent<Props> {
             subtitle={__(
               'You will receive an SMS text message confirming that your phone number is correct. Does not work for Canada and possibly other regions'
             )}
-            body={
+            actions={
               <Fragment>
                 <Button
                   onClick={() => {
@@ -71,7 +71,7 @@ class UserVerify extends React.PureComponent<Props> {
             subtitle={__(
               'If you have a valid credit or debit card, you can use it to instantly prove your humanity. LBRY does not store your credit card information. There is no charge at all for this, now or in the future.'
             )}
-            body={
+            actions={
               <Fragment>
                 {errorMessage && <p className="error-text">{errorMessage}</p>}
                 <CardVerify
@@ -99,7 +99,7 @@ class UserVerify extends React.PureComponent<Props> {
             subtitle={__(
               'A moderator capable of approving you is typically available in the discord server. Check out the #rewards-approval channel for more information. This process will likely involve providing proof of a stable and established online or real-life identity.'
             )}
-            body={
+            actions={
               <Fragment>
                 <Button href="https://chat.lbry.com" button="primary" label={__('Join LBRY Chat')} />
                 <p className="help">{__("We're friendly. We promise.")}</p>

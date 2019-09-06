@@ -25,19 +25,27 @@ function UserEmailNew(props: Props) {
   }
 
   return (
-    <Form onSubmit={handleSubmit}>
-      <FormField
-        autoFocus
-        placeholder={__('hotstuff_96@hotmail.com')}
-        type="email"
-        id="sign_up_email"
-        label={__('Email')}
-        value={newEmail}
-        error={errorMessage}
-        onChange={e => setEmail(e.target.value)}
-      />
-      <Button button="primary" type="submit" label={__('Continue')} disabled={isPending} />
-    </Form>
+    <div>
+      <h1 className="section__title--large" style={{ marginTop: '5rem' }}>
+        {__('Hello')}
+      </h1>
+      <p className="section__subtitle">{__('Create a new account or sign in.')}</p>
+      <Form onSubmit={handleSubmit} className="section">
+        <FormField
+          autoFocus
+          placeholder={__('hotstuff_96@hotmail.com')}
+          type="email"
+          id="sign_up_email"
+          label={__('Email')}
+          value={newEmail}
+          error={errorMessage}
+          onChange={e => setEmail(e.target.value)}
+        />
+        <div className="card__actions">
+          <Button button="primary" type="submit" label={__('Continue')} disabled={!newEmail || isPending} />
+        </div>
+      </Form>
+    </div>
   );
 }
 

@@ -52,12 +52,14 @@ class UserEmailVerify extends React.PureComponent<Props> {
 
     return (
       <React.Fragment>
-        <p className="card__subtitle">
+        <h1 className="section__title--large">{__('We Sent You An Email')}</h1>
+
+        <p className="section__subtitle">
           {__('An email was sent to')} {email}.{' '}
           {__('Follow the link and you will be good to go. This will update automatically.')}
         </p>
 
-        <div className="card__actions">
+        <div className="section__actions">
           <Button
             button="primary"
             label={__('Resend Verification Email')}

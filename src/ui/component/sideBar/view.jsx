@@ -14,7 +14,6 @@ type Props = {
 
 function SideBar(props: Props) {
   const { subscriptions, followedTags, email } = props;
-  const showSideBar = IS_WEB ? Boolean(email) : true;
 
   function buildLink(path, label, icon, guide) {
     return {
@@ -27,62 +26,54 @@ function SideBar(props: Props) {
 
   return (
     <StickyBox offsetTop={100} offsetBottom={20}>
-      {showSideBar ? (
-        <nav className="navigation">
-          <ul className="navigation-links">
-            {[
-              {
-                ...buildLink(null, __('Home'), ICONS.HOME),
-              },
-              // @if TARGET='app'
-              {
-                ...buildLink(PAGES.LIBRARY, __('Library'), ICONS.LIBRARY),
-              },
-              // @endif
-              {
-                ...buildLink(PAGES.PUBLISHED, __('Publishes'), ICONS.PUBLISH),
-              },
-            ].map(linkProps => (
-              <li key={linkProps.label}>
-                <Button {...linkProps} className="navigation-link" activeClass="navigation-link--active" />
-              </li>
-            ))}
-          </ul>
+      <nav className="navigation">
+        <ul className="navigation-links">
+          {[
+            {
+              ...buildLink(null, __('Home'), ICONS.HOME),
+            },
+            // @if TARGET='app'
+            {
+              ...buildLink(PAGES.LIBRARY, __('Library'), ICONS.LIBRARY),
+            },
+            // @endif
+            {
+              ...buildLink(PAGES.PUBLISHED, __('Publishes'), ICONS.PUBLISH),
+            },
+          ].map(linkProps => (
+            <li key={linkProps.label}>
+              <Button {...linkProps} className="navigation-link" activeClass="navigation-link--active" />
+            </li>
+          ))}
+        </ul>
 
-          {(email || !IS_WEB) && (
-            <Fragment>
+        <Button
+          navigate={`/$/${PAGES.FOLLOWING}`}
+          label={__('Customize')}
+          icon={ICONS.EDIT}
+          className="navigation-link"
+          activeClass="navigation-link--active"
+        />
+        <ul className="navigation-links tags--vertical">
+          {followedTags.map(({ name }, key) => (
+            <li className="navigation-link__wrapper" key={name}>
+              <Tag navigate={`/$/tags?t${name}`} name={name} />
+            </li>
+          ))}
+        </ul>
+        <ul className="navigation-links--small">
+          {subscriptions.map(({ uri, channelName }, index) => (
+            <li key={uri} className="navigation-link__wrapper">
               <Button
-                navigate={`/$/${PAGES.FOLLOWING}`}
-                label={__('Customize')}
-                icon={ICONS.EDIT}
+                navigate={uri}
+                label={channelName}
                 className="navigation-link"
                 activeClass="navigation-link--active"
               />
-              <ul className="navigation-links tags--vertical">
-                {followedTags.map(({ name }, key) => (
-                  <li className="navigation-link__wrapper" key={name}>
-                    <Tag navigate={`/$/tags?t${name}`} name={name} />
-                  </li>
-                ))}
-              </ul>
-              <ul className="navigation-links--small">
-                {subscriptions.map(({ uri, channelName }, index) => (
-                  <li key={uri} className="navigation-link__wrapper">
-                    <Button
-                      navigate={uri}
-                      label={channelName}
-                      className="navigation-link"
-                      activeClass="navigation-link--active"
-                    />
-                  </li>
-                ))}
-              </ul>
-            </Fragment>
-          )}
-        </nav>
-      ) : (
-        <div className="navigation--placeholder" />
-      )}
+            </li>
+          ))}
+        </ul>
+      </nav>
     </StickyBox>
   );
 }

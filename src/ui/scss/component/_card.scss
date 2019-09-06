@@ -195,12 +195,6 @@
   }
 }
 
-.card__title--large {
-  @extend .card__title;
-  font-weight: 700;
-  font-size: var(--font-heading);
-}
-
 .card__title--between {
   @extend .card__title;
   justify-content: space-between;
@@ -221,6 +215,15 @@
 
 .card__body {
   padding: var(--spacing-large);
+  padding-top: 0;
+}
+
+.card__body--with-icon {
+  padding-left: 7.5rem;
+}
+
+.card__main-actions {
+  padding: var(--spacing-large);
   background-color: rgba($lbry-blue-1, 0.1);
   color: darken($lbry-gray-5, 15%);
   font-size: var(--font-body);
@@ -229,8 +232,4 @@
     background-color: var(--dm-color-04);
     color: inherit;
   }
-}
-
-.card__body--with-icon {
-  padding-left: 7.5rem;
 }

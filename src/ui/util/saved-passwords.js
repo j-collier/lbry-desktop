@@ -39,10 +39,7 @@ export const deleteSavedPassword = () => {
       // @endif;
 
       // @if TARGET='web'
-      const setCookie = cookie.serialize('auth_token', undefined, {
-        expires: new Date(0),
-      });
-      document.cookie = setCookie;
+      document.cookie = 'auth_token= ; expires = Thu, 01 Jan 1970 00:00:00 GMT';
       // @endif
     },
     reject => {
