@@ -1,6 +1,6 @@
 // @flow
 import type { Node } from 'react';
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { withRouter } from 'react-router';
 import { createNormalizedClaimSearchKey, MATURE_TAGS } from 'lbry-redux';
 import { FormField } from 'component/common/form';
@@ -66,12 +66,12 @@ function ClaimListDiscover(props: Props) {
     hideCustomization,
   } = props;
   const didNavigateForward = history.action === 'PUSH';
+  const [page, setPage] = useState(1);
   const { search, pathname } = location;
   const urlParams = new URLSearchParams(search);
   const personalSort = urlParams.get('sort') || SEARCH_SORT_YOU;
   const typeSort = urlParams.get('type') || TYPE_TRENDING;
   const timeSort = urlParams.get('time') || TIME_WEEK;
-  const page = Number(urlParams.get('page')) || 1;
   const tagsInUrl = urlParams.get('t') || '';
   const url = `${pathname}${search}`;
   const options: {
@@ -152,21 +152,24 @@ function ClaimListDiscover(props: Props) {
     if (newTypeSort === TYPE_TOP) {
       url += `&time=${timeSort}`;
     }
+
+    setPage(1);
     history.push(url);
   }
 
   function handlePersonalSort(newPersonalSort) {
+    setPage(1);
     history.push(`${getSearch()}type=${typeSort}&sort=${newPersonalSort}`);
   }
 
   function handleTimeSort(newTimeSort) {
+    setPage(1);
     history.push(`${getSearch()}type=${typeSort}&sort=${personalSort}&time=${newTimeSort}`);
   }
 
   function handleScrollBottom() {
     if (!loading) {
-      const uri = updateQueryParam(url, 'page', page + 1);
-      history.replace(uri);
+      setPage(page + 1);
     }
   }
 

@@ -447,11 +447,11 @@ export function doOnSignedIn() {
     dispatch(doBalanceSubscribe());
     // @endif
 
-    // Lbryio.call('user_settings', 'get')
-    //   .then(val => {
-    //     console.log('val', val);
-    //   })
-    //   .catch(console.error);
+    Lbryio.call('user_settings', 'get')
+      .then(val => {
+        console.log('val', val);
+      })
+      .catch(console.error);
   };
 }
 
