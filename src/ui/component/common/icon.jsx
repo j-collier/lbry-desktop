@@ -17,7 +17,7 @@ type Props = {
   iconColor?: string,
   size?: number,
   className?: string,
-  sectionIcon: boolean,
+  sectionIcon?: boolean,
 };
 
 class IconComponent extends React.PureComponent<Props> {
@@ -50,7 +50,7 @@ class IconComponent extends React.PureComponent<Props> {
   };
 
   render() {
-    const { icon, tooltip, iconColor, size, className, sectionIcon } = this.props;
+    const { icon, tooltip, iconColor, size, className, sectionIcon = false } = this.props;
     const Icon = icons[this.props.icon];
 
     if (!Icon) {

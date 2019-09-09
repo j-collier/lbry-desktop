@@ -101,11 +101,11 @@ const Header = (props: Props) => {
                     {roundedBalance} <LbcSymbol />
                   </MenuButton>
                   <MenuList className="menu__list--header">
-                    <MenuItem className="menu__link" onSelect={() => history.push(`/$/wallet`)}>
+                    <MenuItem className="menu__link" onSelect={() => history.push(`/$/${PAGES.WALLET}`)}>
                       <Icon aria-hidden icon={ICONS.WALLET} />
                       {__('Wallet')}
                     </MenuItem>
-                    <MenuItem className="menu__link" onSelect={() => history.push(`/$/rewards`)}>
+                    <MenuItem className="menu__link" onSelect={() => history.push(`/$/${PAGES.REWARDS}`)}>
                       <Icon aria-hidden icon={ICONS.FEATURED} />
                       {__('Rewards')}
                     </MenuItem>
@@ -116,15 +116,12 @@ const Header = (props: Props) => {
                     <Icon size={18} icon={ICONS.ACCOUNT} />
                   </MenuButton>
                   <MenuList className="menu__list--header">
-                    <MenuItem
-                      className="menu__link"
-                      onSelect={() => history.push(authenticated ? `/$/account` : `/$/auth/signup`)}
-                    >
+                    <MenuItem className="menu__link" onSelect={() => history.push(`/$/${PAGES.ACCOUNT}`)}>
                       <Icon aria-hidden icon={ICONS.OVERVIEW} />
                       {__('Overview')}
                     </MenuItem>
 
-                    <MenuItem className="menu__link" onSelect={() => history.push(`/$/publish`)}>
+                    <MenuItem className="menu__link" onSelect={() => history.push(`/$/${PAGES.PUBLISH}`)}>
                       <Icon aria-hidden icon={ICONS.PUBLISH} />
                       {__('Publish')}
                     </MenuItem>
@@ -144,11 +141,11 @@ const Header = (props: Props) => {
                     <Icon size={18} icon={ICONS.SETTINGS} />
                   </MenuButton>
                   <MenuList className="menu__list--header">
-                    <MenuItem className="menu__link" onSelect={() => history.push(`/$/settings`)}>
+                    <MenuItem className="menu__link" onSelect={() => history.push(`/$/${PAGES.SETTINGS}`)}>
                       <Icon aria-hidden tootlip icon={ICONS.SETTINGS} />
                       {__('Settings')}
                     </MenuItem>
-                    <MenuItem className="menu__link" onSelect={() => history.push(`/$/help`)}>
+                    <MenuItem className="menu__link" onSelect={() => history.push(`/$/${PAGES.HELP}`)}>
                       <Icon aria-hidden icon={ICONS.HELP} />
                       {__('Help')}
                     </MenuItem>
@@ -160,7 +157,7 @@ const Header = (props: Props) => {
                 </Menu>
               </Fragment>
             ) : (
-              <Button navigate={`/$/${PAGES.AUTH}/signin`} button="primary" label={__('Sign In')} />
+              <Button navigate={`/$/${PAGES.AUTH}`} button="primary" label={__('Sign In')} />
             )}
           </div>
         ) : (

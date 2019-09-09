@@ -1,5 +1,6 @@
 // @flow
 import * as ACTIONS from 'constants/action_types';
+import { parseURI } from 'lbry-redux';
 import { VIEW_ALL } from 'constants/subscriptions';
 import { handleActions } from 'util/redux-utils';
 
@@ -134,6 +135,24 @@ export default handleActions(
       ...state,
       loadingSuggested: false,
     }),
+    ['USER_SETTINGS_POPULATE']: (state: TagState, action: { data: { app: { subscriptions: Array<string> } } }) => {
+      // const subscriptions = getUserSubscriptions(action.data);
+
+      return {
+        ...state,
+        subscriptions:
+          (action.data &&
+            action.data.app &&
+            action.data.app.subscriptions.map(uri => {
+              const { channelName } = parseURI(uri);
+              return {
+                uri,
+                channelName: `@${channelName}`,
+              };
+            })) ||
+          [],
+      };
+    },
   },
   defaultState
 );

@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react';
 import Button from 'component/button';
-import UserEmailResetButton from 'component/userEmailResetButton';
+import UserSignOutButton from 'component/userSignOutButton';
 
 type Props = {
   email: string,
@@ -65,7 +65,7 @@ class UserEmailVerify extends React.PureComponent<Props> {
             label={__('Resend Verification Email')}
             onClick={this.handleResendVerificationEmail}
           />
-          <UserEmailResetButton />
+          <UserSignOutButton label={__('Change')} />
         </div>
 
         <p className="help">

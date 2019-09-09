@@ -6,6 +6,7 @@ import { ipcRenderer, remote } from 'electron';
 import path from 'path';
 import * as ACTIONS from 'constants/action_types';
 import * as MODALS from 'constants/modal_types';
+import * as PAGES from 'constants/pages';
 import {
   Lbry,
   doBalanceSubscribe,
@@ -28,7 +29,7 @@ import {
   selectUpgradeTimer,
   selectModal,
 } from 'redux/selectors/app';
-import { Lbryio, doAuthenticate } from 'lbryinc';
+import { Lbryio, doAuthenticate, LBRYINC_ACTIONS } from 'lbryinc';
 import { lbrySettings as config, version as appVersion } from 'package.json';
 import { push } from 'connected-react-router';
 import analytics from 'analytics';
@@ -414,7 +415,7 @@ export function doConditionalAuthNavigate(newSession) {
     const modal = selectModal(state);
 
     if (newSession || (modal && modal.id !== MODALS.EMAIL_COLLECTION)) {
-      dispatch(push('/$/auth'));
+      dispatch(push(`/$/${PAGES.AUTH}`));
     }
   };
 }
@@ -447,9 +448,18 @@ export function doOnSignedIn() {
     dispatch(doBalanceSubscribe());
     // @endif
 
+    // const settings = {
+    //   version: 0,
+    //   app: {
+    //     subscriptions: ['lbry://@veritasium#f'],
+    //     tags: ['baseball'],
+    //   },
+    // };
+
     Lbryio.call('user_settings', 'get')
-      .then(val => {
-        console.log('val', val);
+      .then(settings => {
+        console.log('settings', settings);
+        dispatch({ type: LBRYINC_ACTIONS.USER_SETTINGS_POPULATE, data: settings });
       })
       .catch(console.error);
   };
@@ -457,9 +467,11 @@ export function doOnSignedIn() {
 
 export function doSignOut() {
   return dispatch => {
-    deleteSavedPassword();
-    setTimeout(() => {
-      location.reload();
-    });
+    deleteSavedPassword()
+      .then(() => {
+        console.log('??');
+        location.reload();
+      })
+      .catch(console.error);
   };
 }

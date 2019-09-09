@@ -9,16 +9,12 @@ import thunk from 'redux-thunk';
 import { createHashHistory, createBrowserHistory } from 'history';
 import { routerMiddleware } from 'connected-react-router';
 import createRootReducer from './reducers';
-import { parseURI, selectFollowedTags } from 'lbry-redux';
+import { parseURI, ACTIONS as LBRY_REDUX_ACTIONS, makeSelectIsFollowingTag, selectFollowedTags } from 'lbry-redux';
 import { Lbryio } from 'lbryinc';
 import { selectSubscriptions } from 'redux/selectors/subscriptions';
 
 function isFunction(object) {
   return typeof object === 'function';
-}
-
-function isNotFunction(object) {
-  return !isFunction(object);
 }
 
 const persistShape = {
@@ -30,30 +26,41 @@ const persistShape = {
 
 function backupSettingsMiddleware() {
   return ({ dispatch, getState }) => next => action => {
-    if (action.type === ACTIONS.CHANNEL_SUBSCRIBE || action.type === ACTIONS.CHANNEL_UNSUBSCRIBE) {
+    if (
+      action.type === ACTIONS.CHANNEL_SUBSCRIBE ||
+      action.type === ACTIONS.CHANNEL_UNSUBSCRIBE ||
+      action.type === LBRY_REDUX_ACTIONS.TOGGLE_TAG_FOLLOW
+    ) {
       let newShape = { ...persistShape };
       const state = getState();
-      const subscriptions = selectSubscriptions(state).map(({ uri }) => {
-        const { channelClaimId } = parseURI(uri);
-        return channelClaimId;
-      });
-
+      const subscriptions = selectSubscriptions(state).map(({ uri }) => uri);
       const { uri } = action.data;
-      const { channelClaimId } = parseURI(uri);
 
       if (action.type === ACTIONS.CHANNEL_SUBSCRIBE) {
         let newSubscriptions = subscriptions.slice();
-        newSubscriptions.push(channelClaimId);
+        newSubscriptions.push(uri);
+        newShape.app.subscriptions = newSubscriptions;
+      } else if (action.type === ACTIONS.CHANNEL_UNSUBSCRIBE) {
+        let newSubscriptions = subscriptions.slice();
+        newSubscriptions = newSubscriptions.filter(subscribedUri => subscribedUri !== uri);
         newShape.app.subscriptions = newSubscriptions;
       } else {
-        let newSubscriptions = subscriptions.slice();
-        newSubscriptions = newSubscriptions.filter(claimId => claimId !== channelClaimId);
-        newShape.app.subscriptions = newSubscriptions;
+        const toggledTag = action.data.name;
+        const followedTags = selectFollowedTags(state).map(({ name }) => name);
+        const isFollowing = makeSelectIsFollowingTag(toggledTag)(state);
+        let newTags = followedTags.slice();
+
+        if (isFollowing) {
+          newTags = newTags.filter(followedTag => followedTag.name !== toggledTag);
+        } else {
+          newTags.push(toggledTag);
+        }
+
+        newShape.app.tags = newTags;
       }
 
-      // Lbryio.call('user_settings', 'set', { settings: newShape });
+      Lbryio.call('user_settings', 'set', { settings: newShape });
     }
-
     return next(action);
   };
 }

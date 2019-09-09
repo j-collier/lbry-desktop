@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { doSignOut } from 'redux/actions/app';
-import UserEmailResetButton from './view';
+import UserSignOutButton from './view';
 
 const select = state => ({});
 
@@ -11,4 +11,4 @@ const perform = dispatch => ({
 export default connect(
   select,
   perform
-)(UserEmailResetButton);
+)(UserSignOutButton);

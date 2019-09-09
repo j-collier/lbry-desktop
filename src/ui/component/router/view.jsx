@@ -45,7 +45,7 @@ function PrivateRoute(props: PrivateRouteProps) {
         isAuthenticated || !IS_WEB ? (
           <Component {...props} />
         ) : (
-          <Redirect to={`/$/${PAGES.AUTH}/signin?redirect=${props.location.pathname}`} />
+          <Redirect to={`/$/${PAGES.AUTH}?redirect=${props.location.pathname}`} />
         )
       }
     />
@@ -73,8 +73,7 @@ function AppRouter(props: Props) {
     <Switch>
       <Route path="/" exact component={DiscoverPage} />
       <Route path={`/$/${PAGES.DISCOVER}`} exact component={DiscoverPage} />
-      <Route path={`/$/${PAGES.AUTH}`} exact component={AuthPage} />
-      <Route path={`/$/${PAGES.AUTH}/signin`} exact component={SignInPage} />
+      <Route path={`/$/${PAGES.AUTH}`} exact component={SignInPage} />
       <Route path={`/$/${PAGES.TAGS}`} exact component={TagsPage} />
       <Route path={`/$/${PAGES.HELP}`} exact component={HelpPage} />
       <Route path={`/$/${PAGES.SEARCH}`} exact component={SearchPage} />

@@ -14,10 +14,12 @@ const AccountPage = () => (
         <RewardSummary />
         <RewardTotal />
       </div>
-      <InviteNew />
+      <div>
+        <UserEmail />
+        <InviteNew />
+      </div>
     </div>
     <InviteList />
-    <UserEmail />
   </Page>
 );
 

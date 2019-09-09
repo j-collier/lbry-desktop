@@ -42,7 +42,7 @@ class RewardsPage extends PureComponent<Props> {
               </p>
 
               <Button
-                navigate={`/$/${PAGES.AUTH}/signin?redirect=/$/${PAGES.REWARDS}`}
+                navigate={`/$/${PAGES.AUTH}?redirect=/$/${PAGES.REWARDS}`}
                 button="primary"
                 label={__('Unlock Rewards')}
               />

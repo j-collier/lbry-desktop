@@ -337,6 +337,12 @@ ipcMain.on('delete-password', (event, password) => {
   });
 });
 
+ipcMain.on('delete-auth-token', (event, password) => {
+  keytar.deletePassword('LBRY', 'auth_token', password).then(res => {
+    event.sender.send('delete-auth-token-response', res);
+  });
+});
+
 process.on('uncaughtException', error => {
   console.log(error);
   dialog.showErrorBox('Error Encountered', `Caught error: ${error}`);

@@ -11,7 +11,7 @@ const perform = (dispatch, ownProps) => ({
     } = ownProps;
     const currentPath = pathname.split('/$/')[1];
     dispatch(doHideModal());
-    history.push(`/$/auth?redirect=${currentPath}`);
+    history.push(`/$/${PAGES.AUTH}?redirect=${currentPath}`);
   },
   closeModal: () => dispatch(doHideModal()),
 });

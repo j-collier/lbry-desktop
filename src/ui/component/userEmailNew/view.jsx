@@ -26,9 +26,7 @@ function UserEmailNew(props: Props) {
 
   return (
     <div>
-      <h1 className="section__title--large" style={{ marginTop: '5rem' }}>
-        {__('Hello')}
-      </h1>
+      <h1 className="section__title--large">{__('Hello')}</h1>
       <p className="section__subtitle">{__('Create a new account or sign in.')}</p>
       <Form onSubmit={handleSubmit} className="section">
         <FormField

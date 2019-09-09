@@ -20,20 +20,8 @@ class InviteList extends React.PureComponent<Props> {
   render() {
     const { invitees, referralReward } = this.props;
 
-    if (!invitees) {
+    if (!invitees || !invitees.length) {
       return null;
-    }
-
-    if (!invitees.length) {
-      return (
-        <Yrbl
-          type="happy"
-          title={__('Power To The People')}
-          subtitle={__(
-            'LBRY is powered by the users. More users, more power… and with great power comes great responsibility.'
-          )}
-        />
-      );
     }
 
     let rewardAmount = 0;

@@ -6,24 +6,24 @@ import {
   selectUser,
   doFetchAccessToken,
   selectAccessToken,
+  makeSelectIsRewardClaimPending,
+  rewards as REWARD_TYPES,
 } from 'lbryinc';
-import { selectMyChannelClaims } from 'lbry-redux';
-import UserSignUp from './view';
+import { selectMyChannelClaims, selectBalance } from 'lbry-redux';
+import UserSignIn from './view';
 
 const select = state => ({
   email: selectEmailToVerify(state),
   user: selectUser(state),
   accessToken: selectAccessToken(state),
   channels: selectMyChannelClaims(state),
+  isClaimingReward: makeSelectIsRewardClaimPending(REWARD_TYPES.TYPE_CONFIRM_EMAIL),
+  balance: selectBalance(state),
 });
 
-const perform = dispatch => ({
-  resendVerificationEmail: email => dispatch(doUserResendVerificationEmail(email)),
-  checkEmailVerified: () => dispatch(doUserCheckEmailVerified()),
-  fetchAccessToken: () => dispatch(doFetchAccessToken()),
-});
+const perform = dispatch => ({});
 
 export default connect(
   select,
   perform
-)(UserSignUp);
+)(UserSignIn);

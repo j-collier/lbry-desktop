@@ -88,7 +88,9 @@ export default function TagSelect(props: Props) {
             </animated.li>
           ))}
           {!transitions.length && (
-            <div className="empty">{empty || __("You aren't following any tags, try searching for one.")}</div>
+            <div className="section__subtitle">
+              {empty || __("You aren't following any tags, try searching for one.")}
+            </div>
           )}
         </ul>
         <TagsSearch onSelect={onSelect} suggestMature={suggestMature && !hasMatureTag} />

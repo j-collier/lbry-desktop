@@ -17,7 +17,7 @@ class RewardSummary extends React.Component<Props> {
       <Card
         title={__('Rewards')}
         subtitle={
-          <React.Fragment className="card__subtitle">
+          <React.Fragment>
             {fetching && __('You have...')}
             {!fetching && hasRewards ? (
               <React.Fragment>

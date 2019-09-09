@@ -13,10 +13,13 @@ type Props = {
 };
 
 function UserSignIn(props: Props) {
-  const { email, user, channels } = props;
+  const { email, user, channels, claimingReward, balance } = props;
   const hasVerifiedEmail = user && user.has_verified_email;
   const rewardsApproved = user && user.is_reward_approved;
   const channelCount = channels ? channels.length : 0;
+
+  if (hasVerifiedEmail && (channelCount === 0 || (!claimingReward && balance === 0))) {
+  }
 
   return (
     <section>
@@ -26,7 +29,7 @@ function UserSignIn(props: Props) {
         <div className="auth-wrapper">
           {!email && !hasVerifiedEmail && <UserEmailNew />}
           {email && !hasVerifiedEmail && <UserEmailVerify />}
-          {hasVerifiedEmail && channelCount === 0 && <UserFirstChannel />}
+          {hasVerifiedEmail && channelCount === 0 && !claimingReward && <UserFirstChannel />}
         </div>
       )}
     </section>

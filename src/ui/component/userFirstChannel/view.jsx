@@ -16,18 +16,11 @@ type Props = {
 function UserFirstChannel(props: Props) {
   const { createChannel, claimReward, creatingChannel, claimingReward } = props;
   const [channel, setChannel] = useState('');
-  const [nameError, setNameError] = useState();
+  const [nameError, setNameError] = useState(undefined);
+  const [error, setError] = useState(undefined);
 
   function handleCreateChannel() {
-    claimReward(error => {
-      // console.log('?', error);
-      if (error) {
-        // setError()
-        // return;
-      }
-
-      createChannel(`@${channel}`, DEFAULT_BID_FOR_FIRST_CHANNEL);
-    });
+    createChannel(`@${channel}`, DEFAULT_BID_FOR_FIRST_CHANNEL);
   }
 
   function handleChannelChange(e) {
@@ -50,7 +43,7 @@ function UserFirstChannel(props: Props) {
         <fieldset-group class="fieldset-group--smushed fieldset-group--disabled-prefix">
           <fieldset-section>
             <label htmlFor="auth_first_channel">
-              {nameError ? <span className="error-text">{nameError}</span> : __('Your Channel')}
+              {error || nameError ? <span className="error-text">{error || nameError}</span> : __('Your Channel')}
             </label>
             <div className="form-field__prefix">@</div>
           </fieldset-section>

@@ -13,7 +13,7 @@ type Props = {
 
 export default function SignInPage(props: Props) {
   const { user, channels, location, history, claimedRewards } = props;
-  console.log('user', user);
+
   const { search } = location;
   const urlParams = new URLSearchParams(search);
   const redirect = urlParams.get('redirect');
