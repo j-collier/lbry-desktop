@@ -9,7 +9,6 @@ import moment from 'moment';
 import ClaimList from 'component/claimList';
 import Tag from 'component/tag';
 import ClaimPreview from 'component/claimPreview';
-import { updateQueryParam } from 'util/query-params';
 import { toCapitalCase } from 'util/string';
 
 const PAGE_SIZE = 20;
@@ -67,13 +66,12 @@ function ClaimListDiscover(props: Props) {
   } = props;
   const didNavigateForward = history.action === 'PUSH';
   const [page, setPage] = useState(1);
-  const { search, pathname } = location;
+  const { search } = location;
   const urlParams = new URLSearchParams(search);
-  const personalSort = urlParams.get('sort') || hideCustomization ? SEARCH_SORT_ALL : SEARCH_SORT_YOU;
+  const personalSort = urlParams.get('sort') || (hideCustomization ? SEARCH_SORT_ALL : SEARCH_SORT_YOU);
   const typeSort = urlParams.get('type') || TYPE_TRENDING;
   const timeSort = urlParams.get('time') || TIME_WEEK;
   const tagsInUrl = urlParams.get('t') || '';
-  const url = `${pathname}${search}`;
   const options: {
     page_size: number,
     page: number,
