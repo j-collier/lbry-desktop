@@ -9,7 +9,7 @@ import {
   makeSelectIsRewardClaimPending,
   rewards as REWARD_TYPES,
 } from 'lbryinc';
-import { selectMyChannelClaims, selectBalance } from 'lbry-redux';
+import { selectMyChannelClaims, selectBalance, selectFetchingMyChannels } from 'lbry-redux';
 import UserSignIn from './view';
 
 const select = state => ({
@@ -19,6 +19,7 @@ const select = state => ({
   channels: selectMyChannelClaims(state),
   isClaimingReward: makeSelectIsRewardClaimPending(REWARD_TYPES.TYPE_CONFIRM_EMAIL),
   balance: selectBalance(state),
+  fetchingChannels: selectFetchingMyChannels(state),
 });
 
 const perform = dispatch => ({});

@@ -22,8 +22,9 @@ const select = (state, props) => {
   } catch (e) {
     // Probably an old channel url, redirect to the vanity channel
     // @routinghax
+
     const match = path.match(/[#/:]/);
-    if (match && match.index) {
+    if (!path.startsWith('/$/') && match && match.index) {
       uri = `lbry://${path.slice(0, match.index)}`;
       props.history.replace(`/${path.slice(0, match.index)}`);
     }

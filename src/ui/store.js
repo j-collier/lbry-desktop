@@ -9,7 +9,7 @@ import thunk from 'redux-thunk';
 import { createHashHistory, createBrowserHistory } from 'history';
 import { routerMiddleware } from 'connected-react-router';
 import createRootReducer from './reducers';
-import { parseURI, ACTIONS as LBRY_REDUX_ACTIONS, makeSelectIsFollowingTag, selectFollowedTags } from 'lbry-redux';
+import { ACTIONS as LBRY_REDUX_ACTIONS, makeSelectIsFollowingTag, selectFollowedTags } from 'lbry-redux';
 import { Lbryio } from 'lbryinc';
 import { selectSubscriptions } from 'redux/selectors/subscriptions';
 
@@ -17,11 +17,13 @@ function isFunction(object) {
   return typeof object === 'function';
 }
 
+function isNotFunction(object) {
+  return !isFunction(object);
+}
+
 const persistShape = {
-  version: 0,
-  app: {
-    subscriptions: [],
-  },
+  version: '0',
+  app: {},
 };
 
 function backupSettingsMiddleware() {
@@ -34,6 +36,10 @@ function backupSettingsMiddleware() {
       let newShape = { ...persistShape };
       const state = getState();
       const subscriptions = selectSubscriptions(state).map(({ uri }) => uri);
+      const tags = selectFollowedTags(state);
+      newShape.app.subscriptions = subscriptions;
+      newShape.app.tags = tags;
+
       const { uri } = action.data;
 
       if (action.type === ACTIONS.CHANNEL_SUBSCRIBE) {
@@ -97,18 +103,19 @@ const walletFilter = createFilter('wallet', ['receiveAddress']);
 const searchFilter = createFilter('search', ['options']);
 const tagsFilter = createFilter('tags', ['followedTags']);
 const blockedFilter = createFilter('blocked', ['blockedChannels']);
+const userFilter = createFilter('user', ['emailToVerify']);
 const whiteListedReducers = [
   // @if TARGET='app'
   'publish',
   'wallet',
+  'tags',
   // 'fileInfo',
   // @endif
   'content',
-  'subscriptions',
   'app',
   'search',
-  'tags',
   'blocked',
+  'user',
 ];
 
 const transforms = [
@@ -117,10 +124,10 @@ const transforms = [
   contentFilter,
   fileInfoFilter,
   blockedFilter,
+  tagsFilter,
   // @endif
   appFilter,
   searchFilter,
-  tagsFilter,
   createCompressor(),
 ];
 

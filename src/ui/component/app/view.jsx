@@ -1,7 +1,7 @@
 // @flow
 import React, { useEffect, useRef } from 'react';
 import analytics from 'analytics';
-import { Lbry, buildURI, parseURI } from 'lbry-redux';
+import { buildURI, parseURI } from 'lbry-redux';
 import Router from 'component/router/index';
 import ModalRouter from 'modal/modalRouter';
 import ReactModal from 'react-modal';
@@ -38,7 +38,6 @@ function App(props: Props) {
     fetchTransactions,
     user,
     fetchAccessToken,
-    accessToken,
     fetchChannelListMine,
     onSignedIn,
   } = props;
@@ -94,14 +93,6 @@ function App(props: Props) {
       analytics.rewardEligibleEvent();
     }
   }, [previousRewardApproved, isRewardApproved]);
-
-  // @if TARGET='web'
-  useEffect(() => {
-    if (hasVerifiedEmail && accessToken) {
-      Lbry.setApiHeader('X-Lbry-Auth-Token', accessToken);
-    }
-  }, [hasVerifiedEmail, accessToken]);
-  // @endif
 
   // Keep this at the end to ensure initial setup effects are run first
   useEffect(() => {

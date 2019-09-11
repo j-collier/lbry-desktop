@@ -14,6 +14,8 @@ import {
   doError,
   makeSelectClaimForUri,
   makeSelectClaimIsMine,
+  doPopulateUserSettings,
+  doFetchChannelListMine,
 } from 'lbry-redux';
 import Native from 'native';
 import { doFetchDaemonSettings } from 'redux/actions/settings';
@@ -29,7 +31,7 @@ import {
   selectUpgradeTimer,
   selectModal,
 } from 'redux/selectors/app';
-import { Lbryio, doAuthenticate, LBRYINC_ACTIONS } from 'lbryinc';
+import { Lbryio, doAuthenticate, selectAccessToken } from 'lbryinc';
 import { lbrySettings as config, version as appVersion } from 'package.json';
 import { push } from 'connected-react-router';
 import analytics from 'analytics';
@@ -442,26 +444,20 @@ export function doAnalyticsView(uri, timeToStart) {
 }
 
 export function doOnSignedIn() {
-  return dispatch => {
+  return (dispatch, getState) => {
     // The balance is subscribed to on launch for desktop
     // @if TARGET='web'
+    const state = getState();
+    const accessToken = selectAccessToken(state);
+    Lbry.setApiHeader('X-Lbry-Auth-Token', accessToken);
     dispatch(doBalanceSubscribe());
+    dispatch(doCheckSubscriptionsInit());
+    dispatch(doFetchChannelListMine());
     // @endif
 
-    // const settings = {
-    //   version: 0,
-    //   app: {
-    //     subscriptions: ['lbry://@veritasium#f'],
-    //     tags: ['baseball'],
-    //   },
-    // };
-
-    Lbryio.call('user_settings', 'get')
-      .then(settings => {
-        console.log('settings', settings);
-        dispatch({ type: LBRYINC_ACTIONS.USER_SETTINGS_POPULATE, data: settings });
-      })
-      .catch(console.error);
+    Lbryio.call('user_settings', 'get').then(settings => {
+      dispatch(doPopulateUserSettings(settings));
+    });
   };
 }
 
@@ -469,9 +465,8 @@ export function doSignOut() {
   return dispatch => {
     deleteSavedPassword()
       .then(() => {
-        console.log('??');
         location.reload();
       })
-      .catch(console.error);
+      .catch(location.reload());
   };
 }

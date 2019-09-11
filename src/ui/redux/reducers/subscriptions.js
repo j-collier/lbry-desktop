@@ -1,6 +1,6 @@
 // @flow
 import * as ACTIONS from 'constants/action_types';
-import { parseURI } from 'lbry-redux';
+import { parseURI, ACTIONS as LBRY_REDUX_ACTIONS } from 'lbry-redux';
 import { VIEW_ALL } from 'constants/subscriptions';
 import { handleActions } from 'util/redux-utils';
 
@@ -135,22 +135,37 @@ export default handleActions(
       ...state,
       loadingSuggested: false,
     }),
-    ['USER_SETTINGS_POPULATE']: (state: TagState, action: { data: { app: { subscriptions: Array<string> } } }) => {
-      // const subscriptions = getUserSubscriptions(action.data);
+    [LBRY_REDUX_ACTIONS.USER_SETTINGS_POPULATE]: (
+      state: SubscriptionState,
+      action: { data: { subscriptions: ?Array<string> } }
+    ) => {
+      const { subscriptions } = action.data;
+      let newSubscriptions;
+
+      if (!subscriptions) {
+        newSubscriptions = state.subscriptions;
+      } else {
+        const parsedSubscriptions = subscriptions.map(uri => {
+          const { channelName } = parseURI(uri);
+
+          return {
+            uri,
+            channelName: `@${channelName}`,
+          };
+        });
+        if (!state.subscriptions || !state.subscriptions.length) {
+          newSubscriptions = parsedSubscriptions;
+        } else {
+          const map = {};
+          newSubscriptions = parsedSubscriptions.concat(state.subscriptions).filter(sub => {
+            return map[sub.uri] ? false : (map[sub.uri] = true);
+          }, {});
+        }
+      }
 
       return {
         ...state,
-        subscriptions:
-          (action.data &&
-            action.data.app &&
-            action.data.app.subscriptions.map(uri => {
-              const { channelName } = parseURI(uri);
-              return {
-                uri,
-                channelName: `@${channelName}`,
-              };
-            })) ||
-          [],
+        subscriptions: newSubscriptions,
       };
     },
   },

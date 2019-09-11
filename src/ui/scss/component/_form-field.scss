@@ -9,13 +9,6 @@ form {
       @extend .button--primary;
     }
   }
-
-  .button--inverse {
-    &:not(:hover),
-    &:hover {
-      // @extend .button--inverse;
-    }
-  }
 }
 
 textarea {
@@ -60,6 +53,12 @@ textarea {
   border-radius: var(--input-border-radius);
   background-color: $lbry-white;
   border-width: 1px;
+
+  [data-mode='dark'] & {
+    background-color: darken($lbry-white, 50%);
+    border-color: $lbry-white;
+    color: $lbry-black;
+  }
 }
 
 fieldset-section {
@@ -69,6 +68,10 @@ fieldset-section {
     width: auto;
     text-transform: none;
     color: lighten($lbry-black, 20%);
+
+    [data-mode='dark'] & {
+      color: $lbry-gray-1;
+    }
   }
 }
 
@@ -194,6 +197,7 @@ fieldset-group {
 
         [data-mode='dark'] & {
           border-color: $lbry-gray-4;
+          background-color: transparent;
         }
       }
     }

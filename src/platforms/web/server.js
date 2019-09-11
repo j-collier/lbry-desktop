@@ -69,6 +69,8 @@ const defaultHead =
   '<meta property="og:image" content="/og.png" />';
 
 app.get('*', async (req, res) => {
+  throw Error();
+  console.log('throw error');
   let html = readFileSync(path.join(__dirname, '/index.html'), 'utf8');
   const urlPath = req.path.substr(1); // trim leading slash
 

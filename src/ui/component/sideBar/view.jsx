@@ -1,7 +1,7 @@
 // @flow
 import * as PAGES from 'constants/pages';
 import * as ICONS from 'constants/icons';
-import React, { Fragment } from 'react';
+import React from 'react';
 import Button from 'component/button';
 import Tag from 'component/tag';
 import StickyBox from 'react-sticky-box/dist/esnext';
@@ -13,8 +13,7 @@ type Props = {
 };
 
 function SideBar(props: Props) {
-  const { subscriptions, followedTags, email } = props;
-
+  const { subscriptions, followedTags } = props;
   function buildLink(path, label, icon, guide) {
     return {
       navigate: path ? `$/${path}` : '/',

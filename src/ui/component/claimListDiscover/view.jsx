@@ -69,7 +69,7 @@ function ClaimListDiscover(props: Props) {
   const [page, setPage] = useState(1);
   const { search, pathname } = location;
   const urlParams = new URLSearchParams(search);
-  const personalSort = urlParams.get('sort') || SEARCH_SORT_YOU;
+  const personalSort = urlParams.get('sort') || hideCustomization ? SEARCH_SORT_ALL : SEARCH_SORT_YOU;
   const typeSort = urlParams.get('type') || TYPE_TRENDING;
   const timeSort = urlParams.get('time') || TIME_WEEK;
   const tagsInUrl = urlParams.get('t') || '';

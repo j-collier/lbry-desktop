@@ -11,6 +11,7 @@ import Page from 'component/page';
 import FileSelector from 'component/common/file-selector';
 import WalletSecurityAndSync from '../../component/walletSecurityAndSync';
 import { getSavedPassword } from 'util/saved-passwords';
+import UserSignOutButton from 'component/userSignOutButton';
 
 type Price = {
   currency: string,
@@ -608,7 +609,6 @@ class SettingsPage extends React.PureComponent<Props, State> {
                 </fieldset-section>
               </Form>
             </section>
-            {/* @endif */}
             <section className="card card--section">
               <h2 className="card__title">{__('Application Cache')}</h2>
 
@@ -625,6 +625,7 @@ class SettingsPage extends React.PureComponent<Props, State> {
                 disabled={this.state.clearingCache}
               />
             </section>
+            {/* @endif */}
           </div>
         )}
       </Page>

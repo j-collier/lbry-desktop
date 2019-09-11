@@ -142,7 +142,7 @@ const ClaimPreview = forwardRef<any, {}>((props: Props, ref: any) => {
   }, [isValid, isResolvingUri, uri, resolveUri, shouldFetch]);
 
   if (shouldHide) {
-    return null;
+    return <span />;
   }
 
   if (placeholder === 'loading' || (isResolvingUri && !claim)) {

@@ -20,6 +20,7 @@ type Analytics = {
   emailProvidedEvent: () => void,
   emailVerifiedEvent: () => void,
   rewardEligibleEvent: () => void,
+  signIn: () => void,
 };
 
 let analyticsEnabled: boolean = true;

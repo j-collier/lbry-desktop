@@ -39,7 +39,9 @@ export const deleteSavedPassword = () => {
       // @endif;
       // @if TARGET='web'
       document.cookie = 'auth_token= ; expires = Thu, 01 Jan 1970 00:00:00 GMT';
-      resolve();
+      setTimeout(() => {
+        resolve();
+      }, 0);
       // @endif
     },
     reject => {
