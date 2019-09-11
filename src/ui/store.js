@@ -103,7 +103,6 @@ const walletFilter = createFilter('wallet', ['receiveAddress']);
 const searchFilter = createFilter('search', ['options']);
 const tagsFilter = createFilter('tags', ['followedTags']);
 const blockedFilter = createFilter('blocked', ['blockedChannels']);
-const userFilter = createFilter('user', ['emailToVerify']);
 const whiteListedReducers = [
   // @if TARGET='app'
   'publish',
@@ -115,7 +114,6 @@ const whiteListedReducers = [
   'app',
   'search',
   'blocked',
-  'user',
 ];
 
 const transforms = [

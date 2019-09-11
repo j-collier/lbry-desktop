@@ -31,11 +31,12 @@ import {
   selectUpgradeTimer,
   selectModal,
 } from 'redux/selectors/app';
-import { Lbryio, doAuthenticate, selectAccessToken } from 'lbryinc';
+import { Lbryio, doAuthenticate, doClaimRewardType, rewards } from 'lbryinc';
 import { lbrySettings as config, version as appVersion } from 'package.json';
 import { push } from 'connected-react-router';
 import analytics from 'analytics';
 import { deleteSavedPassword } from 'util/saved-passwords';
+import cookie from 'cookie';
 
 // @if TARGET='app'
 const { autoUpdater } = remote.require('electron-updater');
@@ -447,9 +448,15 @@ export function doOnSignedIn() {
   return (dispatch, getState) => {
     // The balance is subscribed to on launch for desktop
     // @if TARGET='web'
-    const state = getState();
-    const accessToken = selectAccessToken(state);
-    Lbry.setApiHeader('X-Lbry-Auth-Token', accessToken);
+
+    const { auth_token: authToken } = cookie.parse(document.cookie);
+    Lbry.setApiHeader('X-Lbry-Auth-Token', authToken);
+
+    dispatch(
+      doClaimRewardType(rewards.TYPE_CONFIRM_EMAIL, {
+        notifyError: false,
+      })
+    );
     dispatch(doBalanceSubscribe());
     dispatch(doCheckSubscriptionsInit());
     dispatch(doFetchChannelListMine());
