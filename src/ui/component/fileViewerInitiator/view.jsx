@@ -89,13 +89,13 @@ export default function FileViewer(props: Props) {
   return (
     <div
       disabled={!hasCostInfo}
-      style={!obscurePreview && thumbnail ? { backgroundImage: `url("${thumbnail}")` } : {}}
+      style={!obscurePreview && supported && thumbnail ? { backgroundImage: `url("${thumbnail}")` } : {}}
       onClick={supported && viewFile}
       className={classnames({
         content__cover: supported,
         'content__cover--disabled': !supported,
         'card__media--nsfw': obscurePreview,
-        'card__media--disabled': !fileInfo && insufficientCredits,
+        'card__media--disabled': supported && !fileInfo && insufficientCredits,
       })}
     >
       {!supported && (
