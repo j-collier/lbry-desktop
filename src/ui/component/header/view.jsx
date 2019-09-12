@@ -169,14 +169,14 @@ const Header = (props: Props) => {
         )}
       </div>
       {/* @if TARGET='app' */}
-      {showUpgradeButton && (
+      {/* {showUpgradeButton && (
         <div className="header__banner-background">
           <div className="header__banner-contents">
             {__('Upgrade is ready')}
             <Button button="alt" icon={ICONS.DOWNLOAD} label={__('Install now')} onClick={doDownloadUpgradeRequested} />
           </div>
         </div>
-      )}
+      )} */}
       {/* @endif */}
     </header>
   );
