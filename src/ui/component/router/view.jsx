@@ -61,9 +61,9 @@ function AppRouter(props: Props) {
   const { currentScroll, location } = props;
   const { pathname, search } = location;
 
-  // Don't update the scroll position if only the `page` param changes
   const url = `${pathname}${search.replace(/&?\??page=\d+/, '')}`;
 
+  // Don't update the scroll position if only the `page` param changes
   useEffect(() => {
     window.scrollTo(0, currentScroll);
   }, [currentScroll, url]);

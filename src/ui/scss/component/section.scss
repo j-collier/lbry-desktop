@@ -21,7 +21,8 @@
 
 .section__title {
   text-align: left;
-  font-size: var(--font-title);
+  font-size: var(--font-section-title);
+  font-weight: 300;
 }
 
 .section__title--large {
@@ -65,4 +66,8 @@
   > *:not(:last-child) {
     margin-right: var(--spacing-medium);
   }
+}
+
+.section__body {
+  margin-top: var(--spacing-large);
 }

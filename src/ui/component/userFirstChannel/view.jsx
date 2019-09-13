@@ -14,10 +14,11 @@ type Props = {
 };
 
 function UserFirstChannel(props: Props) {
-  const { createChannel, claimReward, creatingChannel, claimingReward } = props;
-  const [channel, setChannel] = useState('');
+  const { createChannel, claimReward, creatingChannel, claimingReward, user, createChannelError } = props;
+  const { primary_email: primaryEmail } = user;
+  const initialChannel = primaryEmail.split('@')[0];
+  const [channel, setChannel] = useState(initialChannel);
   const [nameError, setNameError] = useState(undefined);
-  const [error, setError] = useState(undefined);
 
   function handleCreateChannel() {
     createChannel(`@${channel}`, DEFAULT_BID_FOR_FIRST_CHANNEL);
@@ -36,21 +37,34 @@ function UserFirstChannel(props: Props) {
   return (
     <Form onSubmit={handleCreateChannel}>
       <h1 className="section__title--large">{__('Create A Channel')}</h1>
-      <p className="section__subtitle">
-        {__('Normally this would use LBRY credits, but we have your back for this first one.')}
-      </p>
-      <section className="section">
+      <div className="section__subtitle">
+        <p>{__('A channel is your identity on the LBRY network.')}</p>
+        <p>{__('You can have more than one or change this later.')}</p>
+      </div>
+      <section className="section__body">
         <fieldset-group class="fieldset-group--smushed fieldset-group--disabled-prefix">
           <fieldset-section>
             <label htmlFor="auth_first_channel">
-              {error || nameError ? <span className="error-text">{error || nameError}</span> : __('Your Channel')}
+              {createChannelError || nameError ? (
+                <span className="error-text">{createChannelError || nameError}</span>
+              ) : (
+                __('Your Channel')
+              )}
             </label>
             <div className="form-field__prefix">@</div>
           </fieldset-section>
 
-          <FormField type="text" name="auth_first_channel" value={channel} onChange={handleChannelChange} />
+          <FormField
+            autoFocus
+            placeholder={__('channel')}
+            type="text"
+            name="auth_first_channel"
+            className="form-field--short"
+            value={channel}
+            onChange={handleChannelChange}
+          />
         </fieldset-group>
-        <div className="card__actions">
+        <div className="section__actions">
           <Button
             button="primary"
             type="submit"

@@ -20,7 +20,7 @@
 
 .main {
   position: relative;
-  width: calc(100% - var(--side-nav-width) - var(--spacing-main-padding));
+  width: calc(100% - var(--side-nav-width) - var(--spacing-large));
 
   @media (max-width: 600px) {
     width: 100%;

@@ -5,7 +5,7 @@ import classnames from 'classnames';
 import Icon from 'component/common/icon';
 
 type Props = {
-  title: string,
+  title: string | Node,
   subtitle: string | Node,
   body: string | Node,
   actions?: string | Node,
@@ -13,9 +13,9 @@ type Props = {
 };
 
 export default function Card(props: Props) {
-  const { title, subtitle, body, actions, icon } = props;
+  const { title, subtitle, body, actions, icon, inline } = props;
   return (
-    <section className={classnames('card')}>
+    <section className={classnames('card', { 'card--inline': inline })}>
       <div className="card__header">
         <div className="section__flex">
           {icon && <Icon sectionIcon icon={icon} />}
@@ -27,7 +27,9 @@ export default function Card(props: Props) {
       </div>
 
       {body && <div className={classnames('card__body', { 'card__body--with-icon': icon })}>{body}</div>}
-      {actions && <div className="card__main-actions">{actions}</div>}
+      {actions && (
+        <div className={classnames('card__main-actions', { 'card__main-actions--with-icon': icon })}>{actions}</div>
+      )}
     </section>
   );
 }

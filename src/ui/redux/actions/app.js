@@ -452,11 +452,6 @@ export function doOnSignedIn() {
     const { auth_token: authToken } = cookie.parse(document.cookie);
     Lbry.setApiHeader('X-Lbry-Auth-Token', authToken);
 
-    dispatch(
-      doClaimRewardType(rewards.TYPE_CONFIRM_EMAIL, {
-        notifyError: false,
-      })
-    );
     dispatch(doBalanceSubscribe());
     dispatch(doCheckSubscriptionsInit());
     dispatch(doFetchChannelListMine());
@@ -471,9 +466,13 @@ export function doOnSignedIn() {
 export function doSignOut() {
   return dispatch => {
     deleteSavedPassword()
+      .then(window.persistor.purge)
+      .then(res => {
+        console.log('res', res);
+      })
       .then(() => {
         location.reload();
       })
-      .catch(location.reload());
+      .catch(() => location.reload());
   };
 }

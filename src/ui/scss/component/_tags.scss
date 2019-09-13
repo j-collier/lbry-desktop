@@ -15,8 +15,11 @@ $main: $lbry-teal-5;
 
 .tags--remove {
   @extend .tags;
-  @extend .ul--no-style;
-  margin-bottom: var(--spacing-large);
+
+  .tag {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
 }
 
 .tags--vertical {
@@ -68,7 +71,11 @@ $main: $lbry-teal-5;
 }
 
 .tag--add {
-  background-color: lighten($lbry-teal-5, 60%);
+  background-color: $lbry-teal-5;
+  color: $lbry-white;
+  .icon {
+    stroke: $lbry-white;
+  }
 
   &.tag--mature {
     @extend .badge--mature;
@@ -78,6 +85,15 @@ $main: $lbry-teal-5;
 .tag--mature {
   @extend .badge--mature;
   // Lighten the color a little so it doesn't stand out as much on claim previews
+}
+
+.tag--placeholder {
+  border: 1px dashed $lbry-teal-5;
+  box-sizing: border-box;
+  color: $lbry-teal-5;
+  opacity: 0.4;
+  pointer-events: none;
+  margin-bottom: -1px !important;
 }
 
 .tag__action-label {

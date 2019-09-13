@@ -121,7 +121,10 @@ export default function ClaimList(props: Props) {
           ))}
         </ul>
       )}
-      {urisLength === 0 && !loading && <p className="main--empty empty">{empty || __('No results')}</p>}
+
+      {urisLength === 0 && !loading && empty !== false && (
+        <p className="main--empty empty">{empty || __('No results')}</p>
+      )}
     </section>
   );
 }

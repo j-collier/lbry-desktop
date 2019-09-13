@@ -55,6 +55,12 @@
   margin-right: auto;
 }
 
+.card--inline {
+  box-shadow: none;
+  border-radius: none;
+  margin-bottom: 0;
+}
+
 //  C A R D
 //  A C T I O N S
 
@@ -218,10 +224,6 @@
   padding-top: 0;
 }
 
-.card__body--with-icon {
-  padding-left: 7.5rem;
-}
-
 .card__main-actions {
   padding: var(--spacing-large);
   background-color: rgba($lbry-blue-1, 0.1);
@@ -232,4 +234,9 @@
     background-color: var(--dm-color-04);
     color: inherit;
   }
+}
+
+.card__body--with-icon,
+.card__main-actions--with-icon {
+  padding-left: 7.5rem;
 }

@@ -31,7 +31,9 @@ class UserVerify extends React.PureComponent<Props> {
         <section className="section--large">
           <h1 className="section__title--large">{__('Extra Verification Needed')}</h1>
           <p>
-            {__("We weren't able to auto-approve you. Please complete one of the steps below to unlock rewards.")}{' '}
+            {__(
+              "We weren't able to auto-approve you for rewards. Please complete one of the steps below to unlock them."
+            )}{' '}
             <Button navigate="/" button="link" label={__('Skip')} />.
           </p>
         </section>

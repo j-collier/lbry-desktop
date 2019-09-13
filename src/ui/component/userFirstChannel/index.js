@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { selectUser, selectEmailToVerify } from 'lbryinc';
-import { doCreateChannel, selectCreatingChannel, selectMyChannelClaims } from 'lbry-redux';
+import { doCreateChannel, selectCreatingChannel, selectMyChannelClaims, selectCreateChannelError } from 'lbry-redux';
 import UserFirstChannel from './view';
 
 const select = state => ({
@@ -8,6 +8,7 @@ const select = state => ({
   user: selectUser(state),
   channels: selectMyChannelClaims(state),
   creatingChannel: selectCreatingChannel(state),
+  createChannelError: selectCreateChannelError(state),
 });
 
 const perform = dispatch => ({

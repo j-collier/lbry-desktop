@@ -330,6 +330,10 @@ fieldset-section {
   margin-bottom: var(--spacing-large);
 }
 
+.form-field--short {
+  width: 25em;
+}
+
 .form-field--price-amount {
   width: 7em;
 }

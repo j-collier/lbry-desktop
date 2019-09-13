@@ -23,7 +23,7 @@ function isNotFunction(object) {
 
 const persistShape = {
   version: '0',
-  app: {},
+  shared: {},
 };
 
 function backupSettingsMiddleware() {
@@ -37,19 +37,19 @@ function backupSettingsMiddleware() {
       const state = getState();
       const subscriptions = selectSubscriptions(state).map(({ uri }) => uri);
       const tags = selectFollowedTags(state);
-      newShape.app.subscriptions = subscriptions;
-      newShape.app.tags = tags;
+      newShape.shared.subscriptions = subscriptions;
+      newShape.shared.tags = tags;
 
       const { uri } = action.data;
 
       if (action.type === ACTIONS.CHANNEL_SUBSCRIBE) {
         let newSubscriptions = subscriptions.slice();
         newSubscriptions.push(uri);
-        newShape.app.subscriptions = newSubscriptions;
+        newShape.shared.subscriptions = newSubscriptions;
       } else if (action.type === ACTIONS.CHANNEL_UNSUBSCRIBE) {
         let newSubscriptions = subscriptions.slice();
         newSubscriptions = newSubscriptions.filter(subscribedUri => subscribedUri !== uri);
-        newShape.app.subscriptions = newSubscriptions;
+        newShape.shared.subscriptions = newSubscriptions;
       } else {
         const toggledTag = action.data.name;
         const followedTags = selectFollowedTags(state).map(({ name }) => name);
@@ -62,7 +62,7 @@ function backupSettingsMiddleware() {
           newTags.push(toggledTag);
         }
 
-        newShape.app.tags = newTags;
+        newShape.shared.tags = newTags;
       }
 
       Lbryio.call('user_settings', 'set', { settings: newShape });

@@ -23,6 +23,9 @@ type Props = {
   automaticDarkModeEnabled: boolean,
   setClientSetting: (string, boolean | string) => void,
   hideBalance: boolean,
+  autoUpdateDownloaded: boolean,
+  isUpgradeAvailable: boolean,
+  doDownloadUpgradeRequested: () => void,
   email: ?string,
   minimal: boolean,
   signOut: () => void,
@@ -36,11 +39,15 @@ const Header = (props: Props) => {
     currentTheme,
     automaticDarkModeEnabled,
     // hideBalance, Add back?
+    autoUpdateDownloaded,
+    isUpgradeAvailable,
+    doDownloadUpgradeRequested,
     email,
     minimal,
     signOut,
   } = props;
   const authenticated = Boolean(email);
+  const showUpgradeButton = autoUpdateDownloaded || (process.platform === 'linux' && isUpgradeAvailable);
   // Auth is optional in the desktop app
   const showFullHeader = !IS_WEB || authenticated;
 

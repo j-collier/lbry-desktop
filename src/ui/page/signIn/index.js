@@ -13,9 +13,8 @@ const select = state => ({
   email: selectEmailToVerify(state),
   user: selectUser(state),
   channels: selectMyChannelClaims(state),
-  claimedRewards: selectClaimedRewards(state),
-  isClaimingReward: makeSelectIsRewardClaimPending(REWARD_TYPES.TYPE_CONFIRM_EMAIL),
   balance: selectBalance(state),
+  isClaimingReward: makeSelectIsRewardClaimPending()(state, { reward_type: REWARD_TYPES.TYPE_CONFIRM_EMAIL }),
 });
 
 export default connect(

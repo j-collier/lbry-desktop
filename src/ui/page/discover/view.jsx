@@ -16,14 +16,12 @@ function DiscoverPage(props: Props) {
 
   return (
     <Page>
+      {email && <TagsSelect showClose title={__('Customize Your Homepage')} />}
       <ClaimListDiscover
         hideCustomization={IS_WEB && !email}
         personalView
         tags={followedTags.map(tag => tag.name)}
         meta={<Button button="link" label={__('Customize')} navigate={`/$/${PAGES.FOLLOWING}`} />}
-        injectedItem={
-          email && <TagsSelect showClose title={__('Customize Your Homepage')} className="claim-preview--injected" />
-        }
       />
     </Page>
   );

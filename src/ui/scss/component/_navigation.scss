@@ -9,9 +9,51 @@
 
 .navigation--placeholder {
   @extend .navigation;
-  height: 80vh;
-  background-color: $lbry-blue-1;
+  height: 29rem;
   border-radius: var(--card-radius);
+  font-size: var(--font-title);
+  font-weight: 600;
+  color: $lbry-white;
+  position: relative;
+  background-color: $lbry-black;
+
+  .wrap {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  h2 {
+    padding: 1.5rem;
+    font-size: 2rem;
+    font-weight: 600;
+  }
+
+  p {
+    padding: 0 1.5rem;
+    font-size: 1.5rem;
+  }
+
+  h2,
+  p,
+  button {
+    z-index: 1;
+  }
+
+  css-doodle {
+    z-index: 0;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    opacity: 0.15;
+  }
+
+  .button {
+    margin-left: 1.5rem;
+    margin-right: 1.5rem;
+    margin-top: 2rem;
+  }
 }
 
 .navigation-links {

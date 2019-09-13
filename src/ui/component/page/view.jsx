@@ -14,14 +14,14 @@ type Props = {
 
 function Page(props: Props) {
   const { children, className, fullscreen = false, authenticated } = props;
-  const showSideBar = !fullscreen && (IS_WEB ? authenticated : true);
+  const showSideBar = true || (!fullscreen && (IS_WEB ? authenticated : true));
 
   return (
     <Fragment>
       <Header minimal={fullscreen} />
       <div className={classnames('main-wrapper__inner')}>
         <main className={classnames('main', className, { 'main--full-width': !showSideBar })}>{children}</main>
-        {showSideBar && <SideBar />}
+        {!fullscreen && <SideBar prop={!authenticated} />}
       </div>
     </Fragment>
   );

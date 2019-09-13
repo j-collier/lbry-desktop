@@ -134,7 +134,12 @@ function ClaimListDiscover(props: Props) {
     </div>
   );
 
-  const emptyState = personalSort === SEARCH_SORT_CHANNELS ? noChannels : false;
+  const emptyState =
+    personalSort === SEARCH_SORT_CHANNELS
+      ? noChannels
+      : personalSort === SEARCH_SORT_YOU && !tags.length
+      ? false
+      : false;
 
   function getSearch() {
     let search = `?`;
@@ -248,7 +253,6 @@ function ClaimListDiscover(props: Props) {
         id={claimSearchCacheQuery}
         loading={loading}
         uris={uris}
-        injectedItem={personalSort === SEARCH_SORT_YOU && injectedItem}
         header={header}
         headerAltControls={meta}
         onScrollBottom={handleScrollBottom}
