@@ -61,6 +61,7 @@ function UserSignIn(props: Props) {
     }
   }, [hasVerifiedEmail, memoizedClaimReward, balance, hasClaimedEmailAward, hasFetchedReward]);
 
+  // Somethings happeneing, wait for sutff to finish
   if (!user || (balance === 0 && !hasFetchedReward) || (hasVerifiedEmail && balance === undefined)) {
     return null;
   }
@@ -70,6 +71,10 @@ function UserSignIn(props: Props) {
   }
 
   if (rewardsApproved && channelCount > 0) {
+    history.replace(redirect || '/');
+  }
+
+  if (rewardsApproved && hasFetchedReward && balance === 0) {
     history.replace(redirect || '/');
   }
 
@@ -83,7 +88,7 @@ function UserSignIn(props: Props) {
           {email && !hasVerifiedEmail && <UserEmailVerify />}
           {hasVerifiedEmail && (
             <React.Fragment>
-              {!fetchingChannels && !claimingReward ? (
+              {balance > 0 && channelCount === 0 ? (
                 <UserFirstChannel />
               ) : (
                 <div className="main--empty">

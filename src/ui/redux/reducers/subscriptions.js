@@ -135,7 +135,7 @@ export default handleActions(
       ...state,
       loadingSuggested: false,
     }),
-    [LBRY_REDUX_ACTIONS.USER_SETTINGS_POPULATE]: (
+    [LBRY_REDUX_ACTIONS.USER_STATE_POPULATE]: (
       state: SubscriptionState,
       action: { data: { subscriptions: ?Array<string> } }
     ) => {

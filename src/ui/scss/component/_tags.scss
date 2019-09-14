@@ -18,7 +18,7 @@ $main: $lbry-teal-5;
 
   .tag {
     margin-top: 0;
-    margin-bottom: 0;
+    margin-bottom: var(--spacing-small);
   }
 }
 
@@ -34,8 +34,24 @@ $main: $lbry-teal-5;
   margin: var(--spacing-large) 0;
 }
 
-.tags__empty-message {
-  margin-top: var(--spacing-medium);
+.tags__input-wrapper {
+  display: flex;
+
+  // Nested style needed for more specificity
+  .tag__input {
+    @extend .tag--remove;
+    border: 1px dashed;
+    border-color: $lbry-teal-5;
+    background-color: mix($lbry-teal-1, $lbry-white, 10%);
+    height: auto;
+    padding: calc(var(--spacing-miniscule) - 1px) var(--spacing-small);
+    margin-top: -2px;
+    border: 1px dashed lighten($lbry-teal-5, 10%);
+
+    ::placeholder {
+      color: black;
+    }
+  }
 }
 
 .tag {
@@ -85,15 +101,6 @@ $main: $lbry-teal-5;
 .tag--mature {
   @extend .badge--mature;
   // Lighten the color a little so it doesn't stand out as much on claim previews
-}
-
-.tag--placeholder {
-  border: 1px dashed $lbry-teal-5;
-  box-sizing: border-box;
-  color: $lbry-teal-5;
-  opacity: 0.4;
-  pointer-events: none;
-  margin-bottom: -1px !important;
 }
 
 .tag__action-label {

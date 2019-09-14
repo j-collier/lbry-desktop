@@ -101,6 +101,10 @@ function App(props: Props) {
     }
   }, [previousHasVerifiedEmail, hasVerifiedEmail, onSignedIn]);
 
+  if (!user) {
+    return null;
+  }
+
   return (
     <div className={MAIN_WRAPPER_CLASS} ref={appRef} onContextMenu={e => openContextMenu(e)}>
       <Router />

@@ -444,11 +444,10 @@ export function doAnalyticsView(uri, timeToStart) {
   };
 }
 
-export function doOnSignedIn() {
+export function doSignIn() {
   return (dispatch, getState) => {
     // The balance is subscribed to on launch for desktop
     // @if TARGET='web'
-
     const { auth_token: authToken } = cookie.parse(document.cookie);
     Lbry.setApiHeader('X-Lbry-Auth-Token', authToken);
 
@@ -467,9 +466,6 @@ export function doSignOut() {
   return dispatch => {
     deleteSavedPassword()
       .then(window.persistor.purge)
-      .then(res => {
-        console.log('res', res);
-      })
       .then(() => {
         location.reload();
       })

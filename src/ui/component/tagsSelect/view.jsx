@@ -17,7 +17,6 @@ type Props = {
   // The default component is for following tags
   title?: string | boolean,
   help?: string,
-  empty?: string,
   tagsChosen?: Array<Tag>,
   onSelect?: Tag => void,
   onRemove?: Tag => void,
@@ -31,7 +30,6 @@ export default function TagSelect(props: Props) {
     doToggleTagFollow = null,
     title,
     help,
-    empty,
     tagsChosen,
     onSelect,
     onRemove,
@@ -79,27 +77,13 @@ export default function TagSelect(props: Props) {
         }
         body={
           <React.Fragment>
-            <ul className="tags--remove">
-              {tagsToDisplay.map(tag => (
-                <Tag
-                  key={tag.name}
-                  name={tag.name}
-                  type="remove"
-                  onClick={() => {
-                    handleTagClick(tag);
-                  }}
-                />
-              ))}
-              {!tagsToDisplay.length && (
-                <React.Fragment>
-                  <div className="tag tag--remove tag--placeholder">swimmers swimming</div>
-                  <div className="tag tag--remove tag--placeholder">dogs doing handstands</div>
-                  <div className="tag tag--remove tag--placeholder">really bad jokes</div>
-                </React.Fragment>
-              )}
-            </ul>
             <section className="section">
-              <TagsSearch onSelect={onSelect} suggestMature={suggestMature && !hasMatureTag} />
+              <TagsSearch
+                onRemove={handleTagClick}
+                onSelect={onSelect}
+                suggestMature={suggestMature && !hasMatureTag}
+                tagsPasssedIn={tagsToDisplay}
+              />
               {help !== false && (
                 <p className="help">
                   {help || __("The tags you follow will change what's trending for you.")}{' '}

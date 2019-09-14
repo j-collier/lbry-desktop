@@ -1,5 +1,9 @@
 .section {
   margin-top: var(--spacing-medium);
+
+  &:first-of-type {
+    margin-top: 0;
+  }
 }
 
 .section--large {

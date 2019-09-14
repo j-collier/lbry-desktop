@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { doError, doFetchTransactions, doFetchChannelListMine } from 'lbry-redux';
 import { selectUser, doRewardList, doFetchRewardedContent, doFetchAccessToken } from 'lbryinc';
 import { selectThemePath } from 'redux/selectors/settings';
-import { doOnSignedIn } from 'redux/actions/app';
+import { doSignIn } from 'redux/actions/app';
 import App from './view';
 
 const select = state => ({
@@ -18,7 +18,7 @@ const perform = dispatch => ({
   fetchTransactions: () => dispatch(doFetchTransactions()),
   fetchAccessToken: () => dispatch(doFetchAccessToken()),
   fetchChannelListMine: () => dispatch(doFetchChannelListMine()),
-  onSignedIn: () => dispatch(doOnSignedIn()),
+  onSignedIn: () => dispatch(doSignIn()),
 });
 
 export default hot(
